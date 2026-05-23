@@ -1,4 +1,4 @@
-import express, { NextFunction } from 'express';
+import express from 'express';
 import passport from 'passport';
 import './config/passport.js';
 import jwt from 'jsonwebtoken';
