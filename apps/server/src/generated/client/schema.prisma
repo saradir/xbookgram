@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  googleId     String?  @unique
+  profilePic   String?
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  posts     Post[]
+  comments  Comment[]
+  postLikes PostLikes[]
+
+  followers Follows[] @relation("UserFollowers")
+  following Follows[] @relation("UserFollowing")
+
+  SentNotifications     Notification[] @relation("SentNotifications")
+  ReceivedNotifications Notification[] @relation("ReceivedNotifications")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  comments Comment[]
+
+  // --- NATIVE SHARE SYSTEM ---
+  // If originalPostId is NULL, it's an original post.
+  // If originalPostId has an ID, it's a shared post instance.
+  originalPostId Int?
+  originalPost   Post?  @relation("shared", fields: [originalPostId], references: [id])
+  sharedBy       Post[] @relation("shared")
+
+  likes         PostLikes[]
+  notifications Notification[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  postId Int
+  post   Post @relation(fields: [postId], references: [id])
+
+  notifications Notification[]
+}
+
+model PostLikes {
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+model Follows {
+  followingUserId Int
+  followedUserId  Int
+
+  followingUser User @relation("UserFollowing", fields: [followingUserId], references: [id])
+  followedUser  User @relation("UserFollowers", fields: [followedUserId], references: [id])
+
+  @@id([followedUserId, followingUserId])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  isRead    Boolean  @default(false)
+
+  recipientId Int
+  recipient   User @relation("ReceivedNotifications", fields: [recipientId], references: [id])
+
+  actorId Int
+  actor   User @relation("SentNotifications", fields: [actorId], references: [id])
+
+  type Event
+
+  postId Int?
+  post   Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  commentId Int?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+}
+
+enum Event {
+  LIKE
+  SHARE
+  FOLLOW
+  COMMENT
+}
