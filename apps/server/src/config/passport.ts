@@ -11,7 +11,6 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                // 1. Safely extract the email using optional chaining
                 const userEmail = profile.emails?.[0]?.value;
 
                 if (!userEmail) {
@@ -23,16 +22,14 @@ passport.use(
                     where: {
                         googleId: profile.id
                     },
-                    // If the user exists, keep their details fresh or update a timestamp
                     update: {
-                        username: profile.displayName,
-                        email: userEmail,
+                        googleId: profile.id
                     },
-                    // If the user doesn't exist, create them
                     create: {
                         googleId: profile.id,
                         username: profile.displayName,
                         email: userEmail,
+                        profilePic: profile.photos?.[0]?.value,
                     }
                 });
             
