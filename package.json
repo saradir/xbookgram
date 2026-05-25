@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint",
     "dev": "pnpm --filter=server dev & pnpm --filter=client dev",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,14 @@
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
     "prettier": "^3.8.3"
-  }
+  },
+  "lint-staged": {
+  "*.{ts,tsx,js,jsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+}
 }
