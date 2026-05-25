@@ -16,15 +16,18 @@ model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
   username     String   @unique
+  name         String?
   googleId     String?  @unique
   profilePic   String?
   passwordHash String?
+  isOnboarded  Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  posts     Post[]
-  comments  Comment[]
-  postLikes PostLikes[]
+  posts        Post[]
+  comments     Comment[]
+  postLikes    PostLikes[]
+  commentLikes CommentLikes[]
 
   followers Follows[] @relation("UserFollowers")
   following Follows[] @relation("UserFollowing")
@@ -40,7 +43,7 @@ model Post {
   updatedAt DateTime @updatedAt
 
   authorId Int
-  author   User @relation(fields: [authorId], references: [id])
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   comments Comment[]
 
@@ -62,26 +65,39 @@ model Comment {
   updatedAt DateTime @updatedAt
 
   authorId Int
-  author   User @relation(fields: [authorId], references: [id])
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   postId Int
-  post   Post @relation(fields: [postId], references: [id])
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
+  likes         CommentLikes[]
   notifications Notification[]
 }
 
 model PostLikes {
   createdAt DateTime @default(now())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userId, postId])
   @@index([postId])
 }
 
+model CommentLikes {
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentId Int
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@id([userId, commentId])
+  @@index([commentId])
+}
+
 model Follows {
+  createdAt       DateTime @default(now())
   followingUserId Int
   followedUserId  Int
 
