@@ -16,5 +16,6 @@
       "./src/types"
     ]
   },
-  "include": ["**/*.ts", "src/**/*"]
+  "include": ["**/*.ts", "src/**/*"],
+  "exclude": ["src/generated"]
 }

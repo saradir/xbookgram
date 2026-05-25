@@ -7,6 +7,9 @@ export default [
   eslintPluginPrettierRecommended, // Sets up both eslint-plugin-prettier and eslint-config-prettier
   eslintConfigPrettier, // Double-checks that formatting conflicts are disabled
   {
+    ignores: ['apps/server/src/generated/**'],
+  },
+  {
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module', // Use "commonjs" if you are using require() instead of import
