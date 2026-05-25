@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import jwt from 'jsonwebtoken';
+import { protect } from "../middlewares/auth.js";
 
 export const authRouter = Router();
 
@@ -32,3 +33,12 @@ authRouter.get(
         res.redirect('http://localhost:5173/dashboard');
     }
 );
+
+authRouter.get(
+    "/me",
+    protect,
+    (req, res, next) => {
+        console.log("Valid request. User is:", req.userId);
+        res.json({ message: `Welcome user ${req.userId}` });
+    }
+)
