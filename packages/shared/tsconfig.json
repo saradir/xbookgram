@@ -5,7 +5,9 @@
     "moduleResolution": "NodeNext",
     "strict": true,
     "skipLibCheck": true,
-    "declaration": true
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "."
   },
-  "include": ["index.ts"]
+  "include": ["index.ts", "src/**/*"]
 }
