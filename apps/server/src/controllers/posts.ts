@@ -50,7 +50,7 @@ export const getFeed: RequestHandler = async (req, res, next) => {
     const hasNextPage = posts.length > POSTS_PER_PAGE;
     const trimmed = hasNextPage ? posts.slice(0, POSTS_PER_PAGE) : posts;
     const nextCursor = hasNextPage
-      ? trimmed[Number(posts.length - 1)].id
+      ? trimmed[Number(trimmed.length - 1)].id
       : null;
 
     return res.status(200).json({
@@ -99,7 +99,7 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
     const hasNextPage = posts.length > POSTS_PER_PAGE;
     const trimmed = hasNextPage ? posts.slice(0, POSTS_PER_PAGE) : posts;
     const nextCursor = hasNextPage
-      ? trimmed[Number(posts.length - 1)].id
+      ? trimmed[Number(trimmed.length - 1)].id
       : null;
 
     return res.status(200).json({
