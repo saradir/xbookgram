@@ -64,3 +64,219 @@ export const getFeed: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getPostsByUser: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const cursor = req.query.cursor ? Number(req.query.cursor) : undefined;
+    const posts = await prisma.post.findMany({
+      where: { authorId: userId },
+      ...(cursor && {
+        cursor: {
+          id: cursor,
+        },
+        skip: 1,
+      }),
+      take: POSTS_PER_PAGE + 1,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profilePic: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+      },
+    });
+
+    const hasNextPage = posts.length > POSTS_PER_PAGE;
+    const trimmed = hasNextPage ? posts.slice(0, POSTS_PER_PAGE) : posts;
+    const nextCursor = hasNextPage
+      ? trimmed[Number(posts.length - 1)].id
+      : null;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        posts: trimmed,
+        nextCursor,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPost: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = Number(req.params.postId);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profilePic: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            updatedAt: true,
+            _count: {
+              select: {
+                likes: true,
+              },
+            },
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profilePic: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+            sharedBy: true,
+          },
+        },
+      },
+    });
+
+    if (!post)
+      return res.status(404).json({ success: false, error: 'Post not found' });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        post,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createPost: RequestHandler = async (req, res, next) => {
+  try {
+    const post = await prisma.post.create({
+      data: {
+        content: req.body.content,
+        authorId: Number(req.userId),
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: {
+        post,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editPost: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = Number(req.params.postId);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post)
+      return res.status(404).json({ success: false, error: 'Post not found' });
+    if (post.authorId !== req.userId)
+      return res.status(403).json({ success: false, error: 'Unauthorized' });
+
+    const edited = await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        content: req.body.content,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      data: { post: edited },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deletePost: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = Number(req.params.postId);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post)
+      return res.status(404).json({ success: false, error: 'Post not found' });
+    if (post.authorId !== req.userId)
+      return res.status(403).json({ success: false, error: 'Unauthorized' });
+
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const sharePost: RequestHandler = async (req, res, next) => {
+  try {
+    const originalPostId = Number(req.params.postId);
+    const originalPost = await prisma.post.findUnique({
+      where: {
+        id: originalPostId,
+      },
+    });
+
+    if (!originalPost)
+      return res.status(404).json({ success: false, error: 'Post not found' });
+
+    const shared = await prisma.post.create({
+      data: {
+        content: req.body.content,
+        authorId: Number(req.userId),
+        originalPostId,
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: {
+        post: shared,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
