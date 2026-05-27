@@ -44,6 +44,17 @@ export const getFeed: RequestHandler = async (req, res, next) => {
             comments: true,
           },
         },
+        originalPost: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profilePic: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -91,6 +102,17 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
           select: {
             likes: true,
             comments: true,
+          },
+        },
+        originalPost: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profilePic: true,
+              },
+            },
           },
         },
       },
@@ -154,6 +176,17 @@ export const getPost: RequestHandler = async (req, res, next) => {
             likes: true,
             comments: true,
             sharedBy: true,
+          },
+        },
+        originalPost: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profilePic: true,
+              },
+            },
           },
         },
       },
