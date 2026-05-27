@@ -55,8 +55,10 @@ export const getFeed: RequestHandler = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      trimmed,
-      nextCursor,
+      data: {
+        posts: trimmed,
+        nextCursor,
+      },
     });
   } catch (error) {
     next(error);
