@@ -1,5 +1,4 @@
 import express from 'express';
-import passport from 'passport';
 import './config/passport.js';
 import { errorHandler } from './middlewares/general.js';
 import { corsConfig } from './config/cors.js';
