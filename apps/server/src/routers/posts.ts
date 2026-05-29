@@ -7,6 +7,7 @@ import {
   SharedPostSchema,
   PostQuerySchema,
 } from '@xbookgram/shared';
+import { commentRouter } from './comments.js';
 export const postsRouter = Router();
 
 const paramValidator = createValidator(PostParamSchema, 'params');
@@ -28,3 +29,6 @@ postsRouter.post(
   createValidator(SharedPostSchema, 'body'),
   postController.sharePost
 );
+
+postsRouter.get('/:postId/comments', paramValidator, commentRouter);
+postsRouter.post('/:postId/comeents', paramValidator, commentRouter);
