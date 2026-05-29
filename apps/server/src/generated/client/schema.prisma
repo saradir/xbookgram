@@ -38,7 +38,7 @@ model User {
 
 model Post {
   id        Int      @id @default(autoincrement())
-  content   String
+  content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -82,6 +82,7 @@ model PostLikes {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userId, postId])
+  @@unique([userId, postId])
   @@index([postId])
 }
 
@@ -93,6 +94,7 @@ model CommentLikes {
   comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@id([userId, commentId])
+  @@unique([userId, commentId])
   @@index([commentId])
 }
 

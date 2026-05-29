@@ -3641,7 +3641,7 @@ export namespace Prisma {
 
   export type PostGroupByOutputType = {
     id: number;
-    content: string;
+    content: string | null;
     createdAt: Date;
     updatedAt: Date;
     authorId: number;
@@ -3777,7 +3777,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<
       {
         id: number;
-        content: string;
+        content: string | null;
         createdAt: Date;
         updatedAt: Date;
         authorId: number;
@@ -12370,7 +12370,7 @@ export namespace Prisma {
     OR?: PostWhereInput[];
     NOT?: PostWhereInput | PostWhereInput[];
     id?: IntFilter<'Post'> | number;
-    content?: StringFilter<'Post'> | string;
+    content?: StringNullableFilter<'Post'> | string | null;
     createdAt?: DateTimeFilter<'Post'> | Date | string;
     updatedAt?: DateTimeFilter<'Post'> | Date | string;
     authorId?: IntFilter<'Post'> | number;
@@ -12385,7 +12385,7 @@ export namespace Prisma {
 
   export type PostOrderByWithRelationInput = {
     id?: SortOrder;
-    content?: SortOrder;
+    content?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     authorId?: SortOrder;
@@ -12404,7 +12404,7 @@ export namespace Prisma {
       AND?: PostWhereInput | PostWhereInput[];
       OR?: PostWhereInput[];
       NOT?: PostWhereInput | PostWhereInput[];
-      content?: StringFilter<'Post'> | string;
+      content?: StringNullableFilter<'Post'> | string | null;
       createdAt?: DateTimeFilter<'Post'> | Date | string;
       updatedAt?: DateTimeFilter<'Post'> | Date | string;
       authorId?: IntFilter<'Post'> | number;
@@ -12424,7 +12424,7 @@ export namespace Prisma {
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder;
-    content?: SortOrder;
+    content?: SortOrderInput | SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
     authorId?: SortOrder;
@@ -12445,7 +12445,7 @@ export namespace Prisma {
       | PostScalarWhereWithAggregatesInput
       | PostScalarWhereWithAggregatesInput[];
     id?: IntWithAggregatesFilter<'Post'> | number;
-    content?: StringWithAggregatesFilter<'Post'> | string;
+    content?: StringNullableWithAggregatesFilter<'Post'> | string | null;
     createdAt?: DateTimeWithAggregatesFilter<'Post'> | Date | string;
     updatedAt?: DateTimeWithAggregatesFilter<'Post'> | Date | string;
     authorId?: IntWithAggregatesFilter<'Post'> | number;
@@ -12561,7 +12561,7 @@ export namespace Prisma {
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
       post?: XOR<PostScalarRelationFilter, PostWhereInput>;
     },
-    'userId_postId'
+    'userId_postId' | 'userId_postId'
   >;
 
   export type PostLikesOrderByWithAggregationInput = {
@@ -12619,7 +12619,7 @@ export namespace Prisma {
       user?: XOR<UserScalarRelationFilter, UserWhereInput>;
       comment?: XOR<CommentScalarRelationFilter, CommentWhereInput>;
     },
-    'userId_commentId'
+    'userId_commentId' | 'userId_commentId'
   >;
 
   export type CommentLikesOrderByWithAggregationInput = {
@@ -12919,7 +12919,7 @@ export namespace Prisma {
   };
 
   export type PostCreateInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -12932,7 +12932,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -12944,7 +12944,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -12957,7 +12957,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -12970,7 +12970,7 @@ export namespace Prisma {
 
   export type PostCreateManyInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -12978,14 +12978,14 @@ export namespace Prisma {
   };
 
   export type PostUpdateManyMutationInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type PostUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -15584,7 +15584,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutAuthorInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     comments?: CommentCreateNestedManyWithoutPostInput;
@@ -15596,7 +15596,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutAuthorInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     originalPostId?: number | null;
@@ -15846,7 +15846,7 @@ export namespace Prisma {
     OR?: PostScalarWhereInput[];
     NOT?: PostScalarWhereInput | PostScalarWhereInput[];
     id?: IntFilter<'Post'> | number;
-    content?: StringFilter<'Post'> | string;
+    content?: StringNullableFilter<'Post'> | string | null;
     createdAt?: DateTimeFilter<'Post'> | Date | string;
     updatedAt?: DateTimeFilter<'Post'> | Date | string;
     authorId?: IntFilter<'Post'> | number;
@@ -16182,7 +16182,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutSharedByInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -16194,7 +16194,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutSharedByInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -16213,7 +16213,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutOriginalPostInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -16225,7 +16225,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutOriginalPostInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -16411,7 +16411,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutSharedByInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -16423,7 +16423,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutSharedByInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -16565,7 +16565,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutCommentsInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -16577,7 +16577,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutCommentsInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -16734,7 +16734,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutCommentsInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -16746,7 +16746,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutCommentsInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -16860,7 +16860,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutLikesInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -16872,7 +16872,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutLikesInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -16970,7 +16970,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutLikesInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -16982,7 +16982,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutLikesInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -17471,7 +17471,7 @@ export namespace Prisma {
   };
 
   export type PostCreateWithoutNotificationsInput = {
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     author: UserCreateNestedOneWithoutPostsInput;
@@ -17483,7 +17483,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateWithoutNotificationsInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -17667,7 +17667,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutNotificationsInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -17679,7 +17679,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutNotificationsInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -17730,7 +17730,7 @@ export namespace Prisma {
 
   export type PostCreateManyAuthorInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     originalPostId?: number | null;
@@ -17785,7 +17785,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutAuthorInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     comments?: CommentUpdateManyWithoutPostNestedInput;
@@ -17797,7 +17797,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutAuthorInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     originalPostId?: NullableIntFieldUpdateOperationsInput | number | null;
@@ -17809,7 +17809,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyWithoutAuthorInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     originalPostId?: NullableIntFieldUpdateOperationsInput | number | null;
@@ -17970,7 +17970,7 @@ export namespace Prisma {
 
   export type PostCreateManyOriginalPostInput = {
     id?: number;
-    content: string;
+    content?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     authorId: number;
@@ -18019,7 +18019,7 @@ export namespace Prisma {
   };
 
   export type PostUpdateWithoutOriginalPostInput = {
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
@@ -18031,7 +18031,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateWithoutOriginalPostInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
@@ -18043,7 +18043,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyWithoutOriginalPostInput = {
     id?: IntFieldUpdateOperationsInput | number;
-    content?: StringFieldUpdateOperationsInput | string;
+    content?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string;
     authorId?: IntFieldUpdateOperationsInput | number;
