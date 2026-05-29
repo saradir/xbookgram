@@ -5,13 +5,15 @@ import {
   PostParamSchema,
   PostBodySchema,
   SharedPostSchema,
+  PostQuerySchema,
 } from '@xbookgram/shared';
 export const postsRouter = Router();
 
 const paramValidator = createValidator(PostParamSchema, 'params');
 const bodyValidator = createValidator(PostBodySchema, 'body');
+const queryValidator = createValidator(PostQuerySchema, 'query');
 
-postsRouter.get('/feed', postController.getFeed);
+postsRouter.get('/feed', queryValidator, postController.getFeed);
 postsRouter.post('/', bodyValidator, postController.createPost);
 postsRouter.get('/:postId', paramValidator, postController.getPost);
 postsRouter.patch(
