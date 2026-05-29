@@ -141,3 +141,42 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+export const toggleCommentLike: RequestHandler = async (req, res, next) => {
+  try {
+    const commentId = Number(req.params.commentId);
+    const userId = Number(req.userId);
+    let result;
+    const like = await prisma.commentLikes.findUnique({
+      where: {
+        userId_commentId: { userId, commentId },
+      },
+    });
+
+    if (like) {
+      result = 'deleted';
+      await prisma.commentLikes.delete({
+        where: {
+          userId_commentId: { userId, commentId },
+        },
+      });
+    } else {
+      result = 'created';
+      await prisma.commentLikes.create({
+        data: {
+          userId,
+          commentId,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        result,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

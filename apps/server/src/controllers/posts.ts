@@ -313,3 +313,42 @@ export const sharePost: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+export const togglePostLike: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = Number(req.params.postId);
+    const userId = Number(req.userId);
+    let result;
+    const like = await prisma.postLikes.findUnique({
+      where: {
+        userId_postId: { userId, postId },
+      },
+    });
+
+    if (like) {
+      result = 'deleted';
+      await prisma.postLikes.delete({
+        where: {
+          userId_postId: { userId, postId },
+        },
+      });
+    } else {
+      result = 'created';
+      await prisma.postLikes.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        result,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

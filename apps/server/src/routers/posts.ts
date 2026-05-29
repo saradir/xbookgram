@@ -29,5 +29,9 @@ postsRouter.post(
   createValidator(SharedPostSchema, 'body'),
   postController.sharePost
 );
-
+postsRouter.post(
+  '/:postId/toggle-like',
+  paramValidator,
+  postController.togglePostLike
+);
 postsRouter.use('/:postId/comments', paramValidator, commentRouter);

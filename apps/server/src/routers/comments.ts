@@ -25,3 +25,9 @@ commentRouter.delete(
   paramValidator,
   commentController.deleteComment
 );
+
+commentRouter.post(
+  '/:commentId/toggle-like',
+  paramValidator,
+  commentController.toggleCommentLike
+);
