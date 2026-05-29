@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
+import { success } from 'zod';
 
 const POSTS_PER_PAGE = 10;
 
