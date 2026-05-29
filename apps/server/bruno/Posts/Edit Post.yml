@@ -1,0 +1,19 @@
+info:
+  name: Edit Post
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{SERVER_URL}}/api/posts/:postId"
+  params:
+    - name: postId
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

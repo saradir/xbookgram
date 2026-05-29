@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:3000/api/posts
+  url: "{{SERVER_URL}}/api/posts"
   headers:
     - name: Cookie
       value: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoib2ZpcjA3ODlAZ21haWwuY29tIiwiaWF0IjoxNzc5OTkzMzQyLCJleHAiOjE3ODI1ODUzNDJ9.xquPsyLJrkjoWcOmOtUTqUwkVIX8FMiYFNC12CSBwEk
