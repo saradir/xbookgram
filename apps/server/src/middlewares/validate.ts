@@ -13,7 +13,6 @@ export const createValidator = (
         errors: result.error.issues.map((i) => i.message),
       });
     }
-    req[source] = result.data;
     next();
   };
   return validator;
