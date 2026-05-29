@@ -30,5 +30,4 @@ postsRouter.post(
   postController.sharePost
 );
 
-postsRouter.get('/:postId/comments', paramValidator, commentRouter);
-postsRouter.post('/:postId/comeents', paramValidator, commentRouter);
+postsRouter.use('/:postId/comments', paramValidator, commentRouter);
