@@ -1,0 +1,25 @@
+info:
+  name: Edit Comment
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{SERVER_URL}}/api/comments/:commentId"
+  params:
+    - name: commentId
+      value: "101"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "content": "this comment has been edited"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

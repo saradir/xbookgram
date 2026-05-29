@@ -2,6 +2,22 @@ opencollection: 1.0.0
 
 info:
   name: xbookgram
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  headers:
+    - name: Cookie
+      value: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoib2ZpcjA3ODlAZ21haWwuY29tIiwiaWF0IjoxNzc5OTkzMzQyLCJleHAiOjE3ODI1ODUzNDJ9.xquPsyLJrkjoWcOmOtUTqUwkVIX8FMiYFNC12CSBwEk
 bundled: false
 extensions:
   bruno:

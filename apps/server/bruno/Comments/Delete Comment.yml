@@ -1,0 +1,19 @@
+info:
+  name: Delete Comment
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{SERVER_URL}}/api/comments/:commentId"
+  params:
+    - name: commentId
+      value: "101"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
