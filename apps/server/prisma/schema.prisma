@@ -83,6 +83,7 @@ model PostLikes {
 
   @@id([userId, postId])
   @@index([postId])
+  @@unique([userId, postId])
 }
 
 model CommentLikes {
@@ -94,6 +95,7 @@ model CommentLikes {
 
   @@id([userId, commentId])
   @@index([commentId])
+  @@unique([userId, commentId])
 }
 
 model Follows {
