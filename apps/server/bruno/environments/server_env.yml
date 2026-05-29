@@ -1,0 +1,4 @@
+name: server_env
+variables:
+  - name: SERVER_URL
+    value: http://localhost:3000

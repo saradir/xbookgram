@@ -1,0 +1,24 @@
+info:
+  name: Create Post
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/api/posts
+  headers:
+    - name: Cookie
+      value: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoib2ZpcjA3ODlAZ21haWwuY29tIiwiaWF0IjoxNzc5OTkzMzQyLCJleHAiOjE3ODI1ODUzNDJ9.xquPsyLJrkjoWcOmOtUTqUwkVIX8FMiYFNC12CSBwEk
+  body:
+    type: json
+    data: |-
+      {
+       "content": "test"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

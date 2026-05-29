@@ -1,0 +1,26 @@
+info:
+  name: Get Post By ID
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{SERVER_URL}}/:postId"
+  params:
+    - name: postId
+      value: ""
+      type: path
+    - name: postId
+      value: ""
+      type: query
+      disabled: true
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
