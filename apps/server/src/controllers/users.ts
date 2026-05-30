@@ -98,7 +98,7 @@ export const editProfile: RequestHandler = async (req, res, next) => {
 
 export const getUser: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.id);
+    const userId = Number(req.params.userId);
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
