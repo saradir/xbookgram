@@ -2,12 +2,16 @@ import { z } from 'zod';
 
 const NAME_REGEX = /^[a-zA-Z\s'-]+$/;
 const USERNAME_REGEX = /^[a-zA-Z0-9_]+$/;
+const QUERY_REGEX = /^[a-zA-Z0-9_\s'-]+$/;
 const USERNAME_LENGTH_ERROR = 'Username must have between 4 to 16 characters';
 const USERNAME_REGEX_ERROR =
   'Username may only contain alphanumeric characters and _';
 const NAME_LENGTH_ERROR =
   'Name must have at least 2 letters and not more than 20';
 const NAME_REGEX_ERROR = 'Name may only contain Romanic letters';
+const QUERY_LENGTH_ERROR = 'Query must contain between 3 to 20 characters';
+const QUERY_REGEX_ERROR =
+  'Query may contain alphanumeric characters, "_", or "\'"';
 
 export const UserParamsSchema = z.object({
   userId: z.coerce.number(),
@@ -42,6 +46,17 @@ export const UserOnboardingSchema = z.object({
     .regex(NAME_REGEX, NAME_REGEX_ERROR),
 });
 
+export const UserQuerySchema = z.object({
+  cursor: z.coerce.number().optional(),
+  q: z
+    .string()
+    .trim()
+    .min(3, QUERY_LENGTH_ERROR)
+    .max(20, QUERY_LENGTH_ERROR)
+    .regex(QUERY_REGEX, QUERY_REGEX_ERROR),
+});
+
 export type UserParams = z.infer<typeof UserParamsSchema>;
 export type UserBody = z.infer<typeof UserBodySchema>;
 export type UserOnboarding = z.infer<typeof UserOnboardingSchema>;
+export type UserQuery = z.infer<typeof UserQuerySchema>;

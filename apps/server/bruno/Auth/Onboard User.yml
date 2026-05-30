@@ -6,6 +6,13 @@ info:
 http:
   method: POST
   url: "{{SERVER_URL}}/auth/onboard"
+  body:
+    type: json
+    data: |-
+      {
+        "username": "superpositioned",
+        "name": "Ophir Golov"
+      }
   auth: inherit
 
 settings:

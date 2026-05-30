@@ -8,8 +8,14 @@ http:
   url: "{{SERVER_URL}}/api/users/:userId/toggle-follow"
   params:
     - name: userId
-      value: ""
+      value: "8"
       type: path
+  body:
+    type: json
+    data: |-
+      {
+        "followedUserId": 5
+      }
   auth: inherit
 
 settings:
