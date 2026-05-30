@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
+import prisma from '../config/prisma.js';
 
 export const authenticate: RequestHandler = async (req, res, next) => {
   let token: string | null = null;
-
   if (req.cookies && req.cookies.token) {
     token = req.cookies.token;
   } else if (
@@ -12,16 +12,25 @@ export const authenticate: RequestHandler = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-
   if (!token) {
     return res.status(401).json({ error: 'Not authorized: no token provided' });
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
       userId: string;
     };
-    req.user!.id = Number(decoded.userId);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(decoded.userId),
+      },
+      select: {
+        id: true,
+        isOnboarded: true,
+      },
+    });
+    if (!user)
+      return res.status(401).json({ error: 'Not authorized: token invalid' });
+    req.user = user;
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Not authorized: token invalid' });
