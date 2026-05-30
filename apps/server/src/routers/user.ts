@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { createValidator } from '../middlewares/validate.js';
 import * as userController from '../controllers/users.js';
 import { UserBodySchema, UserParamsSchema } from '@xbookgram/shared';
+import { requireOnboarded } from '../middlewares/auth.js';
 
 export const userRouter = Router();
 
@@ -12,6 +13,7 @@ userRouter.patch('/profile', bodyValidator, userController.editProfile);
 userRouter.get('/:userId', paramsValidator, userController.getUser);
 userRouter.post(
   '/:userId/toggle-follow',
+  requireOnboarded,
   paramsValidator,
   userController.toggleFollowUser
 );

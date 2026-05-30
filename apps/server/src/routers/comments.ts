@@ -6,6 +6,7 @@ import {
   CommentQuerySchema,
 } from '@xbookgram/shared';
 import * as commentController from '../controllers/comments.js';
+import { requireOnboarded } from '../middlewares/auth.js';
 export const commentRouter = Router({ mergeParams: true });
 
 const bodyValidator = createValidator(CommentBodySchema, 'body');
@@ -13,7 +14,12 @@ const paramValidator = createValidator(CommentParamSchema, 'params');
 const queryValidator = createValidator(CommentQuerySchema, 'query');
 
 commentRouter.get('/', queryValidator, commentController.getComments);
-commentRouter.post('/', bodyValidator, commentController.createComment);
+commentRouter.post(
+  '/',
+  requireOnboarded,
+  bodyValidator,
+  commentController.createComment
+);
 commentRouter.patch(
   '/:commentId',
   paramValidator,
@@ -28,6 +34,7 @@ commentRouter.delete(
 
 commentRouter.post(
   '/:commentId/toggle-like',
+  requireOnboarded,
   paramValidator,
   commentController.toggleCommentLike
 );

@@ -8,6 +8,7 @@ import {
   PostQuerySchema,
 } from '@xbookgram/shared';
 import { commentRouter } from './comments.js';
+import { requireOnboarded } from '../middlewares/auth.js';
 export const postsRouter = Router();
 
 const paramValidator = createValidator(PostParamSchema, 'params');
@@ -15,7 +16,12 @@ const bodyValidator = createValidator(PostBodySchema, 'body');
 const queryValidator = createValidator(PostQuerySchema, 'query');
 
 postsRouter.get('/feed', queryValidator, postController.getFeed);
-postsRouter.post('/', bodyValidator, postController.createPost);
+postsRouter.post(
+  '/',
+  requireOnboarded,
+  bodyValidator,
+  postController.createPost
+);
 postsRouter.get('/:postId', paramValidator, postController.getPost);
 postsRouter.patch(
   '/:postId',
@@ -26,11 +32,13 @@ postsRouter.patch(
 postsRouter.delete('/:postId', paramValidator, postController.deletePost);
 postsRouter.post(
   '/:postId/share',
+  requireOnboarded,
   createValidator(SharedPostSchema, 'body'),
   postController.sharePost
 );
 postsRouter.post(
   '/:postId/toggle-like',
+  requireOnboarded,
   paramValidator,
   postController.togglePostLike
 );

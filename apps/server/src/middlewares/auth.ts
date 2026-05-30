@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/prisma.js';
+import { success } from 'zod';
 
 export const authenticate: RequestHandler = async (req, res, next) => {
   let token: string | null = null;
@@ -35,4 +36,14 @@ export const authenticate: RequestHandler = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ error: 'Not authorized: token invalid' });
   }
+};
+
+export const requireOnboarded: RequestHandler = async (req, res, next) => {
+  if (!req.user!.isOnboarded === true) {
+    return res.status(400).json({
+      success: false,
+      error: 'Must complete profile details before performing this task',
+    });
+  }
+  next();
 };
