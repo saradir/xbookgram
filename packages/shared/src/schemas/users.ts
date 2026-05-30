@@ -43,3 +43,5 @@ export const UserOnboardingSchema = z.object({
 });
 
 export type UserParams = z.infer<typeof UserParamsSchema>;
+export type UserBody = z.infer<typeof UserBodySchema>;
+export type UserOnboarding = z.infer<typeof UserOnboardingSchema>;
