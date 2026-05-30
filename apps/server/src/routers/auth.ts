@@ -2,6 +2,9 @@ import { Router } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { authenticate } from '../middlewares/auth.js';
+import { createValidator } from '../middlewares/validate.js';
+import { UserOnboardingSchema } from '@xbookgram/shared';
+import { onboardUser } from '../controllers/users.js';
 
 export const authRouter = Router();
 
@@ -43,3 +46,10 @@ authRouter.get('/me', authenticate, (req, res, next) => {
   console.log('Valid request. User is:', req.user!.id);
   res.json({ message: `Welcome user ${req.user!.id}` });
 });
+
+authRouter.post(
+  '/onboard',
+  authenticate,
+  createValidator(UserOnboardingSchema, 'body'),
+  onboardUser
+);
