@@ -1,7 +1,8 @@
 declare global {
   namespace Express {
-    interface Request {
-      userId?: number;
+    interface User {
+      id: number;
+      onboarded: boolean;
     }
   }
 }

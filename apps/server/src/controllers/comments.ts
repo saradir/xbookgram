@@ -61,7 +61,7 @@ export const createComment: RequestHandler = async (req, res, next) => {
     const comment = await prisma.comment.create({
       data: {
         postId,
-        authorId: Number(req.userId),
+        authorId: Number(req.user!.id),
         content: req.body.content,
       },
     });
@@ -89,7 +89,7 @@ export const editComment: RequestHandler = async (req, res, next) => {
       return res
         .status(404)
         .json({ success: false, error: 'Comment not found' });
-    if (comment.authorId !== req.userId)
+    if (comment.authorId !== req.user!.id)
       return res.status(403).json({ success: false, error: 'Unauthorized' });
 
     const edited = await prisma.comment.update({
@@ -125,7 +125,7 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
       return res
         .status(404)
         .json({ success: false, error: 'Comment not found' });
-    if (comment.authorId !== req.userId)
+    if (comment.authorId !== req.user!.id)
       return res.status(403).json({ success: false, error: 'Unauthorized' });
 
     await prisma.comment.delete({
@@ -145,7 +145,7 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
 export const toggleCommentLike: RequestHandler = async (req, res, next) => {
   try {
     const commentId = Number(req.params.commentId);
-    const userId = Number(req.userId);
+    const userId = Number(req.user!.id);
     let result;
     const like = await prisma.commentLikes.findUnique({
       where: {

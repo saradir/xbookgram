@@ -40,6 +40,6 @@ authRouter.get(
 );
 
 authRouter.get('/me', authenticate, (req, res, next) => {
-  console.log('Valid request. User is:', req.userId);
-  res.json({ message: `Welcome user ${req.userId}` });
+  console.log('Valid request. User is:', req.user!.id);
+  res.json({ message: `Welcome user ${req.user!.id}` });
 });

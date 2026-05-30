@@ -21,7 +21,7 @@ export const authenticate: RequestHandler = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
       userId: string;
     };
-    req.userId = Number(decoded.userId);
+    req.user!.id = Number(decoded.userId);
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Not authorized: token invalid' });

@@ -11,11 +11,11 @@ export const getFeed: RequestHandler = async (req, res, next) => {
       where: {
         OR: [
           {
-            authorId: req.userId,
+            authorId: req.user!.id,
             updatedAt: { gte: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) },
           },
           {
-            author: { followers: { some: { followingUserId: req.userId } } },
+            author: { followers: { some: { followingUserId: req.user!.id } } },
             updatedAt: { gte: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
           },
         ],
@@ -212,7 +212,7 @@ export const createPost: RequestHandler = async (req, res, next) => {
     const post = await prisma.post.create({
       data: {
         content: req.body.content,
-        authorId: Number(req.userId),
+        authorId: Number(req.user!.id),
       },
     });
 
@@ -238,7 +238,7 @@ export const editPost: RequestHandler = async (req, res, next) => {
 
     if (!post)
       return res.status(404).json({ success: false, error: 'Post not found' });
-    if (post.authorId !== req.userId)
+    if (post.authorId !== req.user!.id)
       return res.status(403).json({ success: false, error: 'Unauthorized' });
 
     const edited = await prisma.post.update({
@@ -269,7 +269,7 @@ export const deletePost: RequestHandler = async (req, res, next) => {
 
     if (!post)
       return res.status(404).json({ success: false, error: 'Post not found' });
-    if (post.authorId !== req.userId)
+    if (post.authorId !== req.user!.id)
       return res.status(403).json({ success: false, error: 'Unauthorized' });
 
     await prisma.post.delete({
@@ -299,7 +299,7 @@ export const sharePost: RequestHandler = async (req, res, next) => {
     const shared = await prisma.post.create({
       data: {
         content: req.body.content,
-        authorId: Number(req.userId),
+        authorId: Number(req.user!.id),
         originalPostId,
       },
     });
@@ -318,7 +318,7 @@ export const sharePost: RequestHandler = async (req, res, next) => {
 export const togglePostLike: RequestHandler = async (req, res, next) => {
   try {
     const postId = Number(req.params.postId);
-    const userId = Number(req.userId);
+    const userId = Number(req.user!.id);
     let result;
     const like = await prisma.postLikes.findUnique({
       where: {
