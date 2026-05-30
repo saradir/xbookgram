@@ -83,7 +83,6 @@ model PostLikes {
 
   @@id([userId, postId])
   @@index([postId])
-  @@unique([userId, postId])
 }
 
 model CommentLikes {
@@ -95,7 +94,6 @@ model CommentLikes {
 
   @@id([userId, commentId])
   @@index([commentId])
-  @@unique([userId, commentId])
 }
 
 model Follows {
@@ -106,7 +104,7 @@ model Follows {
   followingUser User @relation("UserFollowing", fields: [followingUserId], references: [id])
   followedUser  User @relation("UserFollowers", fields: [followedUserId], references: [id])
 
-  @@id([followedUserId, followingUserId])
+  @@id([followingUserId, followedUserId])
 }
 
 model Notification {
