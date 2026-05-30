@@ -1,14 +1,14 @@
 info:
-  name: Delete Comment
+  name: Get User
   type: http
-  seq: 5
+  seq: 1
 
 http:
-  method: DELETE
-  url: "{{SERVER_URL}}/api/comments/:commentId"
+  method: GET
+  url: "{{SERVER_URL}}/api/users/:userId"
   params:
-    - name: commentId
-      value: "101"
+    - name: userId
+      value: "5"
       type: path
   auth: inherit
 

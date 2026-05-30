@@ -1,7 +1,7 @@
 info:
-  name: Posts
+  name: Users
   type: folder
-  seq: 3
+  seq: 2
 
 request:
   auth: inherit
