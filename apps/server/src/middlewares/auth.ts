@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/prisma.js';
-import { success } from 'zod';
 
 export const authenticate: RequestHandler = async (req, res, next) => {
   let token: string | null = null;
