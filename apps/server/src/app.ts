@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import { postsRouter } from './routers/posts.js';
 import { authenticate } from './middlewares/auth.js';
 import { commentRouter } from './routers/comments.js';
+import { userRouter } from './routers/user.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ app.use(cors(corsConfig));
 app.use('/auth', authRouter);
 app.use('/api/posts', authenticate, postsRouter);
 app.use('/api/comments', authenticate, commentRouter);
-
+app.use('/api/users', authenticate, userRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
