@@ -5,6 +5,7 @@ import { authenticate } from '../middlewares/auth.js';
 import { createValidator } from '../middlewares/validate.js';
 import { UserOnboardingSchema } from '@xbookgram/shared';
 import { onboardUser } from '../controllers/users.js';
+import { getCurrentUser } from '../controllers/auth.js';
 
 export const authRouter = Router();
 
@@ -42,10 +43,7 @@ authRouter.get(
   }
 );
 
-authRouter.get('/me', authenticate, (req, res, next) => {
-  console.log('Valid request. User is:', req.user!.id);
-  res.json({ message: `Welcome user ${req.user!.id}` });
-});
+authRouter.get('/me', authenticate, getCurrentUser);
 
 authRouter.post(
   '/onboard',
