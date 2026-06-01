@@ -3,6 +3,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { PublicRoute } from '@/components/PublicRoute';
 import { Layout } from '@/components/Layout';
 import { LoginPage } from '@/pages/LoginPage';
+import { OnboardingPage } from './pages/OnboardingPage';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/posts/:postId" element={<div>Post detail</div>} />
           <Route path="/users/:userId" element={<div>User profile</div>} />
         </Route>
-        <Route path="/onboarding" element={<div>Onboarding</div>} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
       </Route>
     </Routes>
   );
