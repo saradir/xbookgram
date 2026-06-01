@@ -23,7 +23,7 @@ export function LoginPage() {
             </a>
           </Button>
           <Button asChild variant="outline" className="w-full">
-            <a href={`${import.meta.env.VITE_API_URL}/auth/google`}>
+            <a href={`${import.meta.env.VITE_API_URL}/auth/guest-login`}>
               Continue as guest
             </a>
           </Button>
