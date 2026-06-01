@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/logo.png';
+
 import {
   Card,
   CardHeader,
@@ -11,9 +13,17 @@ export function LoginPage() {
   return (
     <div className="bg-muted h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
-        <CardHeader>
+        <img
+          src={logo}
+          alt="logo"
+          className="relative h-24 z-20 object-contain mt-4 w-full object-cover  mb-0 pb-0"
+        />
+
+        <CardHeader className="pt-0">
           <CardTitle>Login to your account</CardTitle>
-          <CardDescription>Use your Google account to login</CardDescription>
+          <CardDescription>
+            Use your Google account to login or continue as a guest
+          </CardDescription>
           <CardAction></CardAction>
         </CardHeader>
         <CardFooter className="flex-col gap-2">
