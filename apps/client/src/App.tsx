@@ -2,12 +2,13 @@ import { Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { PublicRoute } from '@/components/PublicRoute';
 import { Layout } from '@/components/Layout';
+import { LoginPage } from '@/pages/LoginPage';
 
 function App() {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
-        <Route path="/login" element={<div>Login page</div>} />
+        <Route path="/login" element={<LoginPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>
