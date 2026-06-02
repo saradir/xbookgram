@@ -9,7 +9,7 @@ export type Post = {
   _count: { likes: number; comments: number; sharedBy: number };
   originalPost: {
     id: number;
-    content: string | null;
+    content: string;
     createdAt: string;
     author: User;
   } | null;
