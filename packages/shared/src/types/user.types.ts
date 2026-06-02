@@ -1,8 +1,10 @@
-export type CurrentUser = {
+export type User = {
   id: number;
   username: string;
-  name: string;
-  isOnboarded: boolean;
   profilePic: string | null;
-  email: string;
+};
+
+export type CurrentUser = User & {
+  isOnboarded: boolean;
+  email: string | null;
 };

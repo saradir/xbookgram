@@ -43,6 +43,7 @@ export const getFeed: RequestHandler = async (req, res, next) => {
           select: {
             likes: true,
             comments: true,
+            sharedBy: true,
           },
         },
         originalPost: {
@@ -103,6 +104,7 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
           select: {
             likes: true,
             comments: true,
+            sharedBy: true,
           },
         },
         originalPost: {
