@@ -7,4 +7,5 @@ export type User = {
 export type CurrentUser = User & {
   isOnboarded: boolean;
   email: string | null;
+  name: string | null;
 };
