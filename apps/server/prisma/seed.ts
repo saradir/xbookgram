@@ -6,8 +6,7 @@ async function main() {
   console.log('🌱 Seeding...');
 
   // --- USERS ---
-  // upsert = insert if not exists, update if exists (idempotent)
-  // we key on email as the unique identifier
+  // use email as the unique identifier
   const users = await Promise.all(
     Array.from({ length: 20 }).map(() => {
       const firstName = faker.person.firstName();
@@ -28,10 +27,11 @@ async function main() {
   );
   console.log(`✅ ${users.length} users`);
 
-  // --- POSTS ---
-
+  // Add my user for testing
   const me = await prisma.user.findUnique({ where: { id: 5 } });
   if (me) users.push(me);
+
+  // --- POSTS ---
   const posts = await Promise.all(
     users.flatMap((author) =>
       Array.from({ length: 5 }).map(() =>
@@ -126,6 +126,24 @@ async function main() {
     );
   }
   console.log(`✅ comment likes`);
+
+  // --- Shares ---
+  const shares = await Promise.all(
+    users.flatMap((author) =>
+      Array.from({ length: 5 }).map(() => {
+        const originalPost = faker.helpers.arrayElement(posts);
+        return prisma.post.create({
+          data: {
+            content: faker.lorem.paragraph(),
+            authorId: author.id,
+            originalPostId: originalPost.id,
+          },
+        });
+      })
+    )
+  );
+
+  console.log(`✅ ${shares.length} shared posts`);
 
   console.log('🎉 Done!');
 }
