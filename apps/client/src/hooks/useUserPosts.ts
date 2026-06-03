@@ -16,5 +16,5 @@ export function useUserPosts(userId: number) {
       retry: false,
     });
 
-  return { feed: data, isLoading, isError, hasNextPage, fetchNextPage };
+  return { posts: data, isLoading, isError, hasNextPage, fetchNextPage };
 }
