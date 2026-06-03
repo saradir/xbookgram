@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 export function FeedPage() {
   const { feed, isLoading, isError, hasNextPage, fetchNextPage } = useFeed();
   const { ref: inViewRef } = useInView({
-    threshold: 1,
+    threshold: 0,
     onChange: (inView) => {
       if (inView && hasNextPage) fetchNextPage();
     },
@@ -30,7 +30,7 @@ export function FeedPage() {
           <p>End of feed</p>
         )}
       </div>
-      <div ref={inViewRef}></div>
+      <div ref={inViewRef} className="h-px"></div>
     </div>
   );
 }
