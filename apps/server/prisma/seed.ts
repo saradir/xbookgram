@@ -29,19 +29,20 @@ async function main() {
   console.log(`✅ ${users.length} users`);
 
   // --- POSTS ---
-  const posts = await Promise.all(
-    Array.from({ length: 50 }).map(() => {
-      const author = faker.helpers.arrayElement(users);
 
-      return prisma.post.upsert({
-        where: { id: faker.number.int({ min: 1, max: 50 }) },
-        update: {},
-        create: {
-          content: faker.lorem.paragraph(),
-          authorId: author.id,
-        },
-      });
-    })
+  const me = await prisma.user.findUnique({ where: { id: 5 } });
+  if (me) users.push(me);
+  const posts = await Promise.all(
+    users.flatMap((author) =>
+      Array.from({ length: 5 }).map(() =>
+        prisma.post.create({
+          data: {
+            content: faker.lorem.paragraph(),
+            authorId: author.id,
+          },
+        })
+      )
+    )
   );
   console.log(`✅ ${posts.length} posts`);
 
@@ -56,7 +57,7 @@ async function main() {
       targets.map((target) =>
         prisma.follows.upsert({
           where: {
-            followedUserId_followingUserId: {
+            followingUserId_followedUserId: {
               followedUserId: target.id,
               followingUserId: user.id,
             },
