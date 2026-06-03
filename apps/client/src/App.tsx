@@ -4,6 +4,7 @@ import { PublicRoute } from '@/components/PublicRoute';
 import { Layout } from '@/components/Layout';
 import { LoginPage } from '@/pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
+import { FeedPage } from './pages/FeedPage';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
-          <Route path="/" element={<div>Feed</div>} />
+          <Route path="/" element={<FeedPage />} />
           <Route path="/posts/:postId" element={<div>Post detail</div>} />
           <Route path="/users/:userId" element={<div>User profile</div>} />
         </Route>
