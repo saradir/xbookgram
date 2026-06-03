@@ -16,14 +16,14 @@ export function PostCard({ post }: { post: Post }) {
           {post.author.username[0].toUpperCase()}
         </div>
         <div className="font-bold">{post.author.username}</div>
-        <div className="ml-auto text-muted-foreground ">
+        <div className="ml-auto text-muted-foreground">
           {new Date(post.createdAt).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
           })}
         </div>
       </CardHeader>
-      <CardContent className="pl-10">
+      <CardContent className="flex flex-col pl-10 gap-3">
         {post.content && <p>{post.content}</p>}
         {post.originalPost && <SharedPostPreview post={post.originalPost} />}
       </CardContent>
