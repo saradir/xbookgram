@@ -15,15 +15,15 @@ export function FeedPage() {
   if (isError) return <div>Something went wrong</div>;
 
   return (
-    <div>
-      <div>
+    <div className="max-w-xl mx-auto ">
+      <div className="flex flex-col gap-5">
         {feed?.pages
           .flatMap((page) => page.posts)
           .map((p) => (
             <PostCard post={p} key={p.id} />
           ))}
       </div>
-      <div>
+      <div className="text-center text-muted-foreground text-sm py-4">
         {hasNextPage ? (
           <p>Scroll down to load more posts...</p>
         ) : (
