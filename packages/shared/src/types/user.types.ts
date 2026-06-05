@@ -9,3 +9,9 @@ export type CurrentUser = User & {
   email: string | null;
   name: string | null;
 };
+
+export type UserProfile = User & {
+  _count: { following: number; followers: number; posts: number };
+  isFollowed: boolean;
+  isFollower: boolean;
+};

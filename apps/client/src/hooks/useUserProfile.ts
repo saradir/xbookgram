@@ -1,13 +1,13 @@
 import { apiFetch } from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
-import type { User } from '@xbookgram/shared';
+import type { UserProfile } from '@xbookgram/shared';
 
 export function useUserProfile(userId: number) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', userId],
-    queryFn: () => apiFetch<User>(`/api/users/${userId}/`),
+    queryFn: () => apiFetch<{ user: UserProfile }>(`/api/users/${userId}`),
     retry: false,
   });
 
-  return { user: data, isLoading, isError };
+  return { user: data?.user, isLoading, isError };
 }
