@@ -119,9 +119,20 @@ export const getUser: RequestHandler = async (req, res, next) => {
         success: false,
         error: 'User not found',
       });
+    const isFollowed = user.followers.length > 0;
+    const isFollower = user.following.length > 0;
+    const formatted = {
+      id: user.id,
+      username: user.username,
+      profilePic: user.profilePic,
+      _count: user._count,
+      isFollower,
+      isFollowed,
+    };
+
     return res.status(200).json({
       success: true,
-      data: { user },
+      data: { user: formatted },
     });
   } catch (error) {
     next(error);
