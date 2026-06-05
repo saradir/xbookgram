@@ -104,7 +104,14 @@ export const getUser: RequestHandler = async (req, res, next) => {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, username: true, profilePic: true },
+      select: {
+        id: true,
+        username: true,
+        profilePic: true,
+        _count: { select: { followers: true, following: true, posts: true } },
+        followers: { where: { followingUserId: Number(req.user?.id) } },
+        following: { where: { followedUserId: Number(req.user?.id) } },
+      },
     });
 
     if (!user)
