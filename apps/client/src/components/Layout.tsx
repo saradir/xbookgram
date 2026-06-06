@@ -1,9 +1,10 @@
 import { Outlet } from 'react-router-dom';
+import { Navbar } from './Navbar';
 
 export function Layout() {
   return (
     <div className="bg-zinc-100">
-      <nav>Navbar placeholder</nav>
+      <Navbar />
       <main>
         <Outlet />
       </main>
