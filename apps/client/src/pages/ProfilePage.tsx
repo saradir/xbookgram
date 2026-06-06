@@ -27,15 +27,17 @@ export function ProfilePage() {
 
   const flattened = posts?.pages.flatMap((page) => page.posts) || [];
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-1 p-2">
       <ProfileHeader user={user} />
-
+      <div className="border-t mb-8"></div>
       <ProfileBody>
-        <PostList
-          posts={flattened}
-          hasNextPage={hasNextPage}
-          fetchNextPage={fetchNextPage}
-        />
+        <div className="max-w-xl mx-auto">
+          <PostList
+            posts={flattened}
+            hasNextPage={hasNextPage}
+            fetchNextPage={fetchNextPage}
+          />
+        </div>
       </ProfileBody>
     </div>
   );
