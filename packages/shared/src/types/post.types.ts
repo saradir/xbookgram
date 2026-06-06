@@ -19,3 +19,16 @@ export type Feed = {
   posts: Post[];
   nextCursor: number | null;
 };
+
+export type Comment = {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  _count: { likes: number };
+  author: User;
+};
+
+export type PostWithComments = Post & {
+  comments: Comment[];
+};
