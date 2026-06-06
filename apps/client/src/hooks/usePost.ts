@@ -5,7 +5,7 @@ import type { PostWithComments } from '@xbookgram/shared';
 export function usePost(postId: number) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['post', postId],
-    queryFn: () => apiFetch<{ post: PostWithComments }>(`api/posts/${postId}`),
+    queryFn: () => apiFetch<{ post: PostWithComments }>(`/api/posts/${postId}`),
     retry: false,
   });
 
