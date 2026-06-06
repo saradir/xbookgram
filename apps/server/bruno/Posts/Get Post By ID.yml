@@ -5,15 +5,11 @@ info:
 
 http:
   method: GET
-  url: "{{SERVER_URL}}/:postId"
+  url: "{{SERVER_URL}}/api/posts/:postId"
   params:
     - name: postId
-      value: ""
+      value: "5"
       type: path
-    - name: postId
-      value: ""
-      type: query
-      disabled: true
   body:
     type: json
     data: ""
