@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
 import { formatPost } from '../utils/formatPost.js';
+import { formatComment } from '../utils/formatComment.js';
 
 const POSTS_PER_PAGE = 10;
 
@@ -182,6 +183,10 @@ export const getPost: RequestHandler = async (req, res, next) => {
                 profilePic: true,
               },
             },
+            likes: {
+              where: { userId: req.user!.id },
+              select: { userId: true },
+            },
           },
         },
         likes: {
@@ -212,10 +217,13 @@ export const getPost: RequestHandler = async (req, res, next) => {
     if (!post)
       return res.status(404).json({ success: false, error: 'Post not found' });
 
+    const formattedComments = post.comments.map((comment) =>
+      formatComment(comment)
+    );
     return res.status(200).json({
       success: true,
       data: {
-        post: formatPost(post),
+        post: { ...formatPost(post), comments: formattedComments },
       },
     });
   } catch (error) {

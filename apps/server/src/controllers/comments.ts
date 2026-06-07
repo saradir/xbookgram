@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
+import { formatComment } from '../utils/formatComment.js';
 
 const COMMENTS_PER_PAGE = 20;
 
@@ -45,12 +46,14 @@ export const getComments: RequestHandler = async (req, res, next) => {
     const trimmed = hasNextPage
       ? comments.slice(0, COMMENTS_PER_PAGE)
       : comments;
+
+    const formatted = trimmed.map((comment) => formatComment(comment));
     const nextCursor = hasNextPage ? trimmed[COMMENTS_PER_PAGE - 1].id : null;
 
     return res.status(200).json({
       success: true,
       data: {
-        comments: trimmed,
+        comments: formatted,
         nextCursor,
       },
     });
@@ -72,7 +75,7 @@ export const createComment: RequestHandler = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: {
-        comment,
+        comment: formatComment(comment),
       },
     });
   } catch (error) {
@@ -108,7 +111,7 @@ export const editComment: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {
-        comment: edited,
+        comment: formatComment(edited),
       },
     });
   } catch (error) {

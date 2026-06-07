@@ -1,8 +1,10 @@
 import { Heart } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from './ui/card';
 import type { Comment } from '@xbookgram/shared';
+import { useToggleLike } from '@/hooks/useToggleLike';
 
 export function CommentCard({ comment }: { comment: Comment }) {
+  const { mutate } = useToggleLike('comment', comment.id);
   return (
     <Card>
       <CardHeader className="flex items-center gap-2">
@@ -24,8 +26,15 @@ export function CommentCard({ comment }: { comment: Comment }) {
             })}
           </div>
           <div className="flex gap-1 items-center text-muted-foreground">
-            <div className="cursor-pointer">
-              <Heart size={16}></Heart>
+            <div className="cursor-pointer" onClick={() => mutate()}>
+              <Heart
+                size={16}
+                className={
+                  comment.isLiked
+                    ? 'fill-red-500 text-red-500'
+                    : 'text-muted-foreground'
+                }
+              />
             </div>
             {comment._count.likes > 0 && <span>{comment._count.likes}</span>}
           </div>

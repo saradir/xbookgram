@@ -28,6 +28,7 @@ export type Comment = {
   updatedAt: string;
   _count: { likes: number };
   author: User;
+  isLiked: boolean;
 };
 
 export type PostWithComments = Post & {
