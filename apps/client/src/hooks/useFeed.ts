@@ -5,7 +5,7 @@ import type { Feed } from '@xbookgram/shared';
 export function useFeed() {
   const { data, isLoading, isError, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
-      queryKey: ['feed'],
+      queryKey: ['posts', 'feed'],
       queryFn: ({ pageParam }) =>
         apiFetch<Feed>(
           '/api/posts/feed' + (pageParam ? `?cursor=${pageParam}` : '')

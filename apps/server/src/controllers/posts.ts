@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
-import { success } from 'zod';
+import { formatPost } from '../utils/formatPost.js';
 
 const POSTS_PER_PAGE = 10;
 
@@ -39,6 +39,10 @@ export const getFeed: RequestHandler = async (req, res, next) => {
             profilePic: true,
           },
         },
+        likes: {
+          where: { userId: req.user!.id },
+          select: { userId: true },
+        },
         _count: {
           select: {
             likes: true,
@@ -62,6 +66,7 @@ export const getFeed: RequestHandler = async (req, res, next) => {
 
     const hasNextPage = posts.length > POSTS_PER_PAGE;
     const trimmed = hasNextPage ? posts.slice(0, POSTS_PER_PAGE) : posts;
+    const formatted = trimmed.map((post) => formatPost(post));
     const nextCursor = hasNextPage
       ? trimmed[Number(trimmed.length - 1)].id
       : null;
@@ -69,7 +74,7 @@ export const getFeed: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {
-        posts: trimmed,
+        posts: formatted,
         nextCursor,
       },
     });
@@ -100,6 +105,10 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
             profilePic: true,
           },
         },
+        likes: {
+          where: { userId: req.user!.id },
+          select: { userId: true },
+        },
         _count: {
           select: {
             likes: true,
@@ -123,6 +132,7 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
 
     const hasNextPage = posts.length > POSTS_PER_PAGE;
     const trimmed = hasNextPage ? posts.slice(0, POSTS_PER_PAGE) : posts;
+    const formatted = trimmed.map((post) => formatPost(post));
     const nextCursor = hasNextPage
       ? trimmed[Number(trimmed.length - 1)].id
       : null;
@@ -130,7 +140,7 @@ export const getPostsByUser: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {
-        posts: trimmed,
+        posts: formatted,
         nextCursor,
       },
     });
@@ -174,6 +184,10 @@ export const getPost: RequestHandler = async (req, res, next) => {
             },
           },
         },
+        likes: {
+          where: { userId: req.user!.id },
+          select: { userId: true },
+        },
         _count: {
           select: {
             likes: true,
@@ -201,7 +215,7 @@ export const getPost: RequestHandler = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {
-        post,
+        post: formatPost(post),
       },
     });
   } catch (error) {
@@ -221,7 +235,7 @@ export const createPost: RequestHandler = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: {
-        post,
+        post: formatPost(post),
       },
     });
   } catch (error) {
@@ -253,7 +267,7 @@ export const editPost: RequestHandler = async (req, res, next) => {
     });
     return res.status(200).json({
       success: true,
-      data: { post: edited },
+      data: { post: formatPost(edited) },
     });
   } catch (error) {
     next(error);
@@ -309,7 +323,7 @@ export const sharePost: RequestHandler = async (req, res, next) => {
     return res.status(201).json({
       success: true,
       data: {
-        post: shared,
+        post: formatPost(shared),
       },
     });
   } catch (error) {

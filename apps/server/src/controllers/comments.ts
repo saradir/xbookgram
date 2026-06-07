@@ -28,6 +28,10 @@ export const getComments: RequestHandler = async (req, res, next) => {
             profilePic: true,
           },
         },
+        likes: {
+          where: { userId: req.user!.id },
+          select: { userId: true },
+        },
 
         _count: {
           select: {

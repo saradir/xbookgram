@@ -8,8 +8,11 @@ import type { Post } from '@xbookgram/shared';
 import { SharedPostPreview } from './SharedPostPreview';
 import { Heart, MessageCircle, Repeat2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToggleLike } from '@/hooks/useToggleLike';
 
 export function PostCard({ post }: { post: Post }) {
+  const { mutate } = useToggleLike('post', post.id);
+
   return (
     <Card>
       <CardHeader className="flex items-center gap-2">
@@ -37,8 +40,18 @@ export function PostCard({ post }: { post: Post }) {
       </CardContent>
 
       <CardFooter className="flex gap-6 pl-10 py-2">
-        <div className="flex gap-1 items-center text-muted-foreground">
-          <Heart size={16} />
+        <div
+          className="flex gap-1 items-center cursor-pointer"
+          onClick={() => mutate()}
+        >
+          <Heart
+            size={16}
+            className={
+              post.isLiked
+                ? 'fill-red-500 text-red-500'
+                : 'text-muted-foreground'
+            }
+          />
           {post._count.likes > 0 && <span>{post._count.likes}</span>}
         </div>
         <Link to={`/posts/${post.id}`}>

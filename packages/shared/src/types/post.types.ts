@@ -6,6 +6,7 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   author: User;
+  isLiked: boolean;
   _count: { likes: number; comments: number; sharedBy: number };
   originalPost: {
     id: number;
