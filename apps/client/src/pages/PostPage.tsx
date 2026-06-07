@@ -13,7 +13,7 @@ export function PostPage() {
   if (!post) return null;
 
   return (
-    <div className="flex flex-col gap-5 max-w-xl mx-auto ">
+    <div className="flex flex-col gap-5 max-w-xl mx-auto h-screen">
       <PostCard post={post} />
       <div className="border-l-2 border-zinc-300 ml-6 pl-4">
         <CommentList comments={post.comments} />
