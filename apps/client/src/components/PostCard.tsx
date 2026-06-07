@@ -7,15 +7,21 @@ import {
 import type { Post } from '@xbookgram/shared';
 import { SharedPostPreview } from './SharedPostPreview';
 import { Heart, MessageCircle, Repeat2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function PostCard({ post }: { post: Post }) {
   return (
     <Card>
       <CardHeader className="flex items-center gap-2">
-        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-500">
-          {post.author.username[0].toUpperCase()}
-        </div>
-        <div className="font-bold">{post.author.username}</div>
+        <Link
+          to={`/users/${post.author.id}`}
+          className="flex items-center gap-2"
+        >
+          <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-500">
+            {post.author.username[0].toUpperCase()}
+          </div>
+          <div className="font-bold">{post.author.username}</div>
+        </Link>
         <div className="ml-auto text-muted-foreground">
           {new Date(post.createdAt).toLocaleDateString('en-US', {
             month: 'short',
@@ -23,20 +29,24 @@ export function PostCard({ post }: { post: Post }) {
           })}
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col pl-10 gap-3">
-        {post.content && <p>{post.content}</p>}
-        {post.originalPost && <SharedPostPreview post={post.originalPost} />}
-      </CardContent>
+      <Link to={`/posts/${post.id}`}>
+        <CardContent className="flex flex-col pl-10 gap-3">
+          {post.content && <p>{post.content}</p>}
+          {post.originalPost && <SharedPostPreview post={post.originalPost} />}
+        </CardContent>
+      </Link>
 
       <CardFooter className="flex gap-6 pl-10 py-2">
         <div className="flex gap-1 items-center text-muted-foreground">
           <Heart size={16} />
           {post._count.likes > 0 && <span>{post._count.likes}</span>}
         </div>
-        <div className="flex gap-1  items-center  text-muted-foreground ">
-          <MessageCircle size={16} />
-          {post._count.likes > 0 && <span>{post._count.comments} </span>}
-        </div>
+        <Link to={`/posts/${post.id}`}>
+          <div className="flex gap-1  items-center  text-muted-foreground ">
+            <MessageCircle size={16} />
+            {post._count.likes > 0 && <span>{post._count.comments} </span>}
+          </div>
+        </Link>
         <div className="flex gap-1  items-center text-muted-foreground ">
           <Repeat2 size={16} />
           {post._count.sharedBy > 0 && <span>{post._count.sharedBy} </span>}
