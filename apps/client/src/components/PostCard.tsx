@@ -29,12 +29,12 @@ export function PostCard({ post }: { post: Post }) {
           })}
         </div>
       </CardHeader>
-      <Link to={`/posts/${post.id}`}>
-        <CardContent className="flex flex-col pl-10 gap-3">
+      <CardContent className="flex flex-col pl-10 gap-3">
+        <Link to={`/posts/${post.id}`}>
           {post.content && <p>{post.content}</p>}
-          {post.originalPost && <SharedPostPreview post={post.originalPost} />}
-        </CardContent>
-      </Link>
+        </Link>
+        {post.originalPost && <SharedPostPreview post={post.originalPost} />}
+      </CardContent>
 
       <CardFooter className="flex gap-6 pl-10 py-2">
         <div className="flex gap-1 items-center text-muted-foreground">
