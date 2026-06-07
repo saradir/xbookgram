@@ -6,7 +6,7 @@ export function ProfileHeader({ user }: { user: UserProfile }) {
   const { currentUser } = useCurrentUser();
   return (
     <header className="flex gap-2 ">
-      <div className="flex items-center justify-center h-20 w-20 rounded-full bg-blue-500">
+      <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-500">
         {user.username[0].toUpperCase()}
       </div>
 
