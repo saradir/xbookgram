@@ -49,7 +49,7 @@ export function CreateCommentModal({
             <Field>
               <Textarea
                 id="content"
-                rows={15}
+                rows={5}
                 name="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
