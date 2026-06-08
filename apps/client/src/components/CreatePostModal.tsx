@@ -60,7 +60,7 @@ export function CreatePostModal() {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit" disabled={isPending} onClick={handleSubmit}>
+            <Button type="button" disabled={isPending} onClick={handleSubmit}>
               Post
             </Button>
           </DialogFooter>
