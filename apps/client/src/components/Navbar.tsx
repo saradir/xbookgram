@@ -1,7 +1,8 @@
 import logo from '@/assets/logo_cropped_bg.png';
 import { Link } from 'react-router-dom';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { Bell, Plus, Home } from 'lucide-react';
+import { Bell, Home } from 'lucide-react';
+import { CreatePostModal } from './CreatePostModal';
 
 export function Navbar() {
   const { currentUser } = useCurrentUser();
@@ -11,7 +12,7 @@ export function Navbar() {
 
       <div className="flex justify-end ml-auto items-center gap-2">
         <div className="cursor-pointer rounded-md hover:bg-zinc-200">
-          <Plus size={28} />
+          <CreatePostModal />
         </div>
         <Link to={'/'} className="rounded-md hover:bg-zinc-200 cursor-pointer">
           <Bell size={28} />
