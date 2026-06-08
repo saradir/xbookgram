@@ -53,6 +53,7 @@ export function CreatePostModal() {
                 name="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                className="resize-none  shadow-none focus-visible:ring-0"
               />
             </Field>
           </FieldGroup>
