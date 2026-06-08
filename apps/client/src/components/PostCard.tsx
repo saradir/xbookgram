@@ -11,14 +11,25 @@ import { Link } from 'react-router-dom';
 import { useToggleLike } from '@/hooks/useToggleLike';
 import { CreateCommentModal } from './CreateCommentModal';
 import { useState } from 'react';
+import { SharePostModal } from './SharePostModal';
 
 export function PostCard({ post }: { post: Post }) {
-  const [openModal, setOpen] = useState(false);
+  const [openCommentModal, setCommentModalOpen] = useState(false);
+  const [openShareModal, setShareModalOpen] = useState(false);
   const { mutate } = useToggleLike('post', post.id);
 
   return (
     <div>
-      <CreateCommentModal postId={post.id} setOpen={setOpen} open={openModal} />
+      <CreateCommentModal
+        postId={post.id}
+        setOpen={setCommentModalOpen}
+        open={openCommentModal}
+      />
+      <SharePostModal
+        post={post}
+        setOpen={setShareModalOpen}
+        open={openShareModal}
+      />
       <Card>
         <CardHeader className="flex items-center gap-2">
           <Link
@@ -60,15 +71,20 @@ export function PostCard({ post }: { post: Post }) {
           </div>
           <div
             className="flex gap-1 items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted rounded-md px-2 py-1"
-            onClick={() => setOpen(true)}
+            onClick={() => setCommentModalOpen(true)}
           >
             <MessageCircle size={16} />
             {post._count.comments > 0 && <span>{post._count.comments}</span>}
           </div>
-          <div className="flex gap-1 items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted rounded-md px-2 py-1 ">
-            <Repeat2 size={16} />
-            {post._count.sharedBy > 0 && <span>{post._count.sharedBy} </span>}
-          </div>
+          {!post.originalPost && (
+            <div
+              className="flex gap-1 items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-muted rounded-md px-2 py-1 "
+              onClick={() => setShareModalOpen(true)}
+            >
+              <Repeat2 size={16} />
+              {post._count.sharedBy > 0 && <span>{post._count.sharedBy} </span>}
+            </div>
+          )}
         </CardFooter>
       </Card>
     </div>
