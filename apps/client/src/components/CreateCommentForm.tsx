@@ -3,6 +3,7 @@ import { useCreateComment } from '@/hooks/useCreateComment';
 import { Textarea } from './ui/textarea';
 import { useState } from 'react';
 import { Button } from './ui/button';
+import { ProfilePic } from './ProfilePic';
 
 export function CreateCommentForm({ postId }: { postId: number }) {
   const { currentUser } = useCurrentUser();
@@ -22,9 +23,10 @@ export function CreateCommentForm({ postId }: { postId: number }) {
     <div className="border rounded-md p-2">
       <form>
         <div className="flex">
-          <span className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-500">
-            {currentUser?.user.username[0].toUpperCase()}
-          </span>
+          <ProfilePic
+            src={currentUser?.user.profilePic}
+            username={currentUser?.user.username || ''}
+          />
           <Textarea
             className="resize-none border-none shadow-none focus-visible:ring-0 mb-2"
             id="content"

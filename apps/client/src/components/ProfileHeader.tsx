@@ -2,6 +2,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import type { UserProfile } from '@xbookgram/shared';
 import { Button } from './ui/button';
 import { useToggleFollow } from '@/hooks/useToggleFollow';
+import { ProfilePic } from './ProfilePic';
 
 export function ProfileHeader({ user }: { user: UserProfile }) {
   const { currentUser } = useCurrentUser();
@@ -9,10 +10,11 @@ export function ProfileHeader({ user }: { user: UserProfile }) {
 
   return (
     <header className="flex gap-2 ">
-      <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-500">
-        {user.username[0].toUpperCase()}
-      </div>
-
+      <ProfilePic
+        src={currentUser?.user.profilePic}
+        username={currentUser?.user.username || ''}
+        className="h-16 w-16"
+      />
       <div className="flex flex-col self-end ">
         <div className="font-bold">{user.username}</div>
         <div className="flex gap-2 items-center p-2">
