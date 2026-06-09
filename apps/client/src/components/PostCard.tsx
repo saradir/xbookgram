@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { SharePostModal } from './SharePostModal';
 import { ActionsDropdown } from './DropdownActions';
 import { ProfilePic } from './ProfilePic';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
