@@ -13,6 +13,7 @@ import { CreateCommentModal } from './CreateCommentModal';
 import { useState } from 'react';
 import { SharePostModal } from './SharePostModal';
 import { ActionsDropdown } from './DropdownActions';
+import { ProfilePic } from './ProfilePic';
 
 export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
@@ -37,9 +38,10 @@ export function PostCard({ post }: { post: Post }) {
             to={`/users/${post.author.id}`}
             className="flex items-center gap-2"
           >
-            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-500">
-              {post.author.username[0].toUpperCase()}
-            </div>
+            <ProfilePic
+              src={post.author?.profilePic}
+              username={post.author?.username || ''}
+            />
             <div className="font-bold">{post.author.username}</div>
           </Link>
           <div className=" text-muted-foreground">
