@@ -11,7 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useDeletePost } from '@/hooks/useDeletePost';
 
-export function DropdownPost({ postId }: { postId: number }) {
+export function DropdownPost({
+  postId,
+  onEdit,
+}: {
+  postId: number;
+  onEdit: (open: boolean) => void;
+}) {
   const { mutate: deletePost, isPending: pendingDelete } = useDeletePost();
   return (
     <DropdownMenu>
@@ -25,7 +31,10 @@ export function DropdownPost({ postId }: { postId: number }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => onEdit(true)}
+          >
             <PencilIcon />
             Edit
           </DropdownMenuItem>

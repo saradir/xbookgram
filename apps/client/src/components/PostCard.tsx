@@ -16,10 +16,12 @@ import { SharePostModal } from './SharePostModal';
 import { DropdownPost } from './DropdownPost';
 import { ProfilePic } from './ProfilePic';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { EditPostModal } from './EditPostModal';
 
 export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
   const [openShareModal, setShareModalOpen] = useState(false);
+  const [openEditModal, setEditModalOpen] = useState(false);
   const { mutate } = useToggleLike('post', post.id);
   const { currentUser } = useCurrentUser();
   const isCurrentUser = post.author.id === currentUser?.user.id;
@@ -35,6 +37,14 @@ export function PostCard({ post }: { post: Post }) {
         post={post}
         setOpen={setShareModalOpen}
         open={openShareModal}
+      />
+      <EditPostModal
+        key={post.id}
+        postId={post.id}
+        isShare={post.originalPost ? true : false}
+        initialContent={post.content}
+        setOpen={setEditModalOpen}
+        open={openEditModal}
       />
       <Card>
         <CardHeader className="flex items-center gap-2">
@@ -55,7 +65,9 @@ export function PostCard({ post }: { post: Post }) {
             })}
           </div>
           <CardAction className="ml-auto">
-            {isCurrentUser && <DropdownPost postId={post.id} />}
+            {isCurrentUser && (
+              <DropdownPost postId={post.id} onEdit={setEditModalOpen} />
+            )}
           </CardAction>
         </CardHeader>
         <CardContent className="flex flex-col pl-10 gap-3">
