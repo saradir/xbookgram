@@ -16,7 +16,11 @@ export function DropdownMenuAvatar({ user }: { user?: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full cursor-pointer"
+        >
           <ProfilePic src={user?.profilePic} username={user?.username || ''} />
         </Button>
       </DropdownMenuTrigger>
