@@ -9,8 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useDeletePost } from '@/hooks/useDeletePost';
 
-export function ActionsDropdown({ type }: { type: 'post' | 'comment' }) {
+export function DropdownPost({ postId }: { postId: number }) {
+  const { mutate: deletePost, isPending: pendingDelete } = useDeletePost();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -27,16 +29,19 @@ export function ActionsDropdown({ type }: { type: 'post' | 'comment' }) {
             <PencilIcon />
             Edit
           </DropdownMenuItem>
-          {type === 'post' && (
-            <DropdownMenuItem className="cursor-pointer">
-              <ShareIcon />
-              Share
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem className="cursor-pointer">
+            <ShareIcon />
+            Share
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive" className="cursor-pointer">
+          <DropdownMenuItem
+            variant="destructive"
+            className="cursor-pointer"
+            onClick={() => deletePost(postId)}
+            disabled={pendingDelete}
+          >
             <TrashIcon />
             Delete
           </DropdownMenuItem>

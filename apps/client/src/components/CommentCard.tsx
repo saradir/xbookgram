@@ -8,10 +8,10 @@ import {
 } from './ui/card';
 import type { Comment } from '@xbookgram/shared';
 import { useToggleLike } from '@/hooks/useToggleLike';
-import { ActionsDropdown } from './DropdownActions';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ProfilePic } from './ProfilePic';
 import { Link } from 'react-router-dom';
+import { DropdownComment } from './DropdownComment';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
@@ -38,7 +38,7 @@ export function CommentCard({ comment }: { comment: Comment }) {
           })}
         </div>
         <CardAction className="ml-auto">
-          {isCurrentUser && <ActionsDropdown type="comment" />}
+          {isCurrentUser && <DropdownComment commentId={comment.id} />}
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col pl-15 gap-3">

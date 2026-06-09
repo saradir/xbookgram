@@ -13,7 +13,7 @@ import { useToggleLike } from '@/hooks/useToggleLike';
 import { CreateCommentModal } from './CreateCommentModal';
 import { useState } from 'react';
 import { SharePostModal } from './SharePostModal';
-import { ActionsDropdown } from './DropdownActions';
+import { DropdownPost } from './DropdownPost';
 import { ProfilePic } from './ProfilePic';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 
@@ -55,7 +55,7 @@ export function PostCard({ post }: { post: Post }) {
             })}
           </div>
           <CardAction className="ml-auto">
-            {isCurrentUser && <ActionsDropdown type="post" />}
+            {isCurrentUser && <DropdownPost postId={post.id} />}
           </CardAction>
         </CardHeader>
         <CardContent className="flex flex-col pl-10 gap-3">
