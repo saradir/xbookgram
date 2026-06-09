@@ -10,6 +10,8 @@ import type { Comment } from '@xbookgram/shared';
 import { useToggleLike } from '@/hooks/useToggleLike';
 import { ActionsDropdown } from './DropdownActions';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { ProfilePic } from './ProfilePic';
+import { Link } from 'react-router-dom';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
@@ -19,10 +21,16 @@ export function CommentCard({ comment }: { comment: Comment }) {
   return (
     <Card>
       <CardHeader className="flex items-center gap-2">
-        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-500">
-          {comment.author.username[0].toUpperCase()}
-        </div>
-        <div className="font-bold">{comment.author.username}</div>
+        <Link
+          to={`/users/${comment.author.id}`}
+          className="flex items-center gap-2"
+        >
+          <ProfilePic
+            src={comment.author.profilePic}
+            username={comment.author.username}
+          />
+          <div className="font-bold">{comment.author.username}</div>
+        </Link>
         <div className=" text-muted-foreground">
           {new Date(comment.createdAt).toLocaleDateString('en-US', {
             month: 'short',
