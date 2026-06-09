@@ -1,7 +1,14 @@
 import { Heart } from 'lucide-react';
-import { Card, CardHeader, CardContent, CardFooter } from './ui/card';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  CardAction,
+} from './ui/card';
 import type { Comment } from '@xbookgram/shared';
 import { useToggleLike } from '@/hooks/useToggleLike';
+import { ActionsDropdown } from './DropdownActions';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
@@ -12,6 +19,15 @@ export function CommentCard({ comment }: { comment: Comment }) {
           {comment.author.username[0].toUpperCase()}
         </div>
         <div className="font-bold">{comment.author.username}</div>
+        <div className=" text-muted-foreground">
+          {new Date(comment.createdAt).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+          })}
+        </div>
+        <CardAction className="ml-auto">
+          <ActionsDropdown type="comment" />
+        </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col pl-15 gap-3">
         <div>{comment.content}</div>
@@ -19,12 +35,6 @@ export function CommentCard({ comment }: { comment: Comment }) {
 
       <CardFooter className="flex flex-row gap-6 pl-0 py-2">
         <div className="flex flex-row gap-2 pl-10 py-0 w-full">
-          <div className="ml-auto text-muted-foreground">
-            {new Date(comment.createdAt).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-            })}
-          </div>
           <div className="flex gap-1 items-center text-muted-foreground">
             <div className="cursor-pointer" onClick={() => mutate()}>
               <Heart

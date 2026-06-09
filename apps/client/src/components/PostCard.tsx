@@ -12,6 +12,7 @@ import { useToggleLike } from '@/hooks/useToggleLike';
 import { CreateCommentModal } from './CreateCommentModal';
 import { useState } from 'react';
 import { SharePostModal } from './SharePostModal';
+import { ActionsDropdown } from './DropdownActions';
 
 export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
@@ -41,12 +42,15 @@ export function PostCard({ post }: { post: Post }) {
             </div>
             <div className="font-bold">{post.author.username}</div>
           </Link>
-          <div className="ml-auto text-muted-foreground">
+          <div className=" text-muted-foreground">
             {new Date(post.createdAt).toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
             })}
           </div>
+          <CardAction className="ml-auto">
+            <ActionsDropdown type="post" />
+          </CardAction>
         </CardHeader>
         <CardContent className="flex flex-col pl-10 gap-3">
           <Link to={`/posts/${post.id}`}>
