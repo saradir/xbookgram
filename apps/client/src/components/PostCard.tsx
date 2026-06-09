@@ -20,6 +20,8 @@ export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
   const [openShareModal, setShareModalOpen] = useState(false);
   const { mutate } = useToggleLike('post', post.id);
+  const { currentUser } = useCurrentUser();
+  const isCurrentUser = post.author.id === currentUser?.user.id;
 
   return (
     <div>
@@ -52,7 +54,7 @@ export function PostCard({ post }: { post: Post }) {
             })}
           </div>
           <CardAction className="ml-auto">
-            <ActionsDropdown type="post" />
+            {isCurrentUser && <ActionsDropdown type="post" />}
           </CardAction>
         </CardHeader>
         <CardContent className="flex flex-col pl-10 gap-3">

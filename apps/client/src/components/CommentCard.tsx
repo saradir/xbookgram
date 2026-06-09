@@ -9,9 +9,13 @@ import {
 import type { Comment } from '@xbookgram/shared';
 import { useToggleLike } from '@/hooks/useToggleLike';
 import { ActionsDropdown } from './DropdownActions';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
+  const { currentUser } = useCurrentUser();
+  const isCurrentUser = comment.author.id === currentUser?.user.id;
+
   return (
     <Card>
       <CardHeader className="flex items-center gap-2">
@@ -26,7 +30,7 @@ export function CommentCard({ comment }: { comment: Comment }) {
           })}
         </div>
         <CardAction className="ml-auto">
-          <ActionsDropdown type="comment" />
+          {isCurrentUser && <ActionsDropdown type="comment" />}
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col pl-15 gap-3">
