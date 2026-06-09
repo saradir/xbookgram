@@ -1,10 +1,10 @@
 import { apiFetch } from '@/lib/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export function useCreateComment(postId: number) {
+export function useCreateComment() {
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: (content: string) =>
+    mutationFn: ({ postId, content }: { postId: number; content: string }) =>
       apiFetch(`/api/posts/${postId}/comments`, {
         method: 'POST',
         body: JSON.stringify({ content }),

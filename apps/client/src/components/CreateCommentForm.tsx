@@ -7,17 +7,20 @@ import { ProfilePic } from './ProfilePic';
 
 export function CreateCommentForm({ postId }: { postId: number }) {
   const { currentUser } = useCurrentUser();
-  const { mutate, isPending } = useCreateComment(postId);
+  const { mutate, isPending } = useCreateComment();
   const [content, setContent] = useState('');
 
   const handleSubmit = () => {
     if (!content.trim()) return;
 
-    mutate(content, {
-      onSuccess: () => {
-        setContent('');
-      },
-    });
+    mutate(
+      { postId, content },
+      {
+        onSuccess: () => {
+          setContent('');
+        },
+      }
+    );
   };
   return (
     <div className="border rounded-md p-2">

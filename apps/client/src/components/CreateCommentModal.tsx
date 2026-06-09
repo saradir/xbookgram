@@ -23,18 +23,21 @@ export function CreateCommentModal({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
-  const { mutate, isPending } = useCreateComment(postId);
+  const { mutate, isPending } = useCreateComment();
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const handleSubmit = () => {
     if (!content.trim()) return;
-    mutate(content, {
-      onSuccess: () => {
-        setOpen(false);
-        setContent('');
-        navigate(`/posts/${postId}`);
-      },
-    });
+    mutate(
+      { postId, content },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          setContent('');
+          navigate(`/posts/${postId}`);
+        },
+      }
+    );
   };
 
   return (
