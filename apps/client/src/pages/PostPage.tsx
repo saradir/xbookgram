@@ -17,7 +17,7 @@ export function PostPage() {
     <div className="flex flex-col gap-5 max-w-xl mx-auto">
       <PostCard post={post} />
       <CreateCommentForm postId={postId} />
-      <div className="border-l-2 border-zinc-300 ml-6 pl-4">
+      <div className="border-l-2 border-zinc-300 ml-6 pl-4 mb-5">
         <CommentList comments={post.comments} />
       </div>
     </div>
