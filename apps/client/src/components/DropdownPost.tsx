@@ -14,9 +14,11 @@ import { useDeletePost } from '@/hooks/useDeletePost';
 export function DropdownPost({
   postId,
   onEdit,
+  onShare,
 }: {
   postId: number;
   onEdit: (open: boolean) => void;
+  onShare: (open: boolean) => void;
 }) {
   const { mutate: deletePost, isPending: pendingDelete } = useDeletePost();
   return (
@@ -38,7 +40,10 @@ export function DropdownPost({
             <PencilIcon />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => onShare(true)}
+          >
             <ShareIcon />
             Share
           </DropdownMenuItem>

@@ -66,7 +66,11 @@ export function PostCard({ post }: { post: Post }) {
           </div>
           <CardAction className="ml-auto">
             {isCurrentUser && (
-              <DropdownPost postId={post.id} onEdit={setEditModalOpen} />
+              <DropdownPost
+                postId={post.id}
+                onEdit={setEditModalOpen}
+                onShare={setShareModalOpen}
+              />
             )}
           </CardAction>
         </CardHeader>
