@@ -4,12 +4,16 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { Bell, Home } from 'lucide-react';
 import { CreatePostModal } from './CreatePostModal';
 import { DropdownMenuAvatar } from './DropdownAvatar';
+import { Searchbar } from './Searchbar';
 
 export function Navbar() {
   const { currentUser } = useCurrentUser();
   return (
     <nav className="sticky top-0 z-10 bg-white border-b mb-8 p-2 h-12 flex items-center">
-      <img src={logo} alt="logo" className="h-9 w-auto object-contain"></img>
+      <div className="flex mr-auto items-center gap-1 justify-center">
+        <img src={logo} alt="logo" className="h-9 w-auto object-contain"></img>
+        <Searchbar />
+      </div>
 
       <div className="flex justify-end ml-auto items-center gap-2">
         <CreatePostModal />
