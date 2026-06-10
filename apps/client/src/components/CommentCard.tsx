@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { DropdownComment } from './DropdownComment';
 import { useState } from 'react';
 import { EditCommentForm } from './EditCommentForm';
+import { formatDate } from '@/lib/utils';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
@@ -35,10 +36,7 @@ export function CommentCard({ comment }: { comment: Comment }) {
           <div className="font-bold">{comment.author.username}</div>
         </Link>
         <div className=" text-muted-foreground">
-          {new Date(comment.createdAt).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-          })}
+          {formatDate(comment.createdAt)}
         </div>
         <CardAction className="ml-auto">
           {isCurrentUser && (
@@ -55,6 +53,12 @@ export function CommentCard({ comment }: { comment: Comment }) {
           />
         ) : (
           <div>{comment.content}</div>
+        )}
+
+        {comment.createdAt !== comment.updatedAt && (
+          <div className=" ml-auto text-xs italic text-muted-foreground">
+            Last changed: {formatDate(comment.updatedAt)}
+          </div>
         )}
       </CardContent>
 

@@ -17,6 +17,7 @@ import { DropdownPost } from './DropdownPost';
 import { ProfilePic } from './ProfilePic';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { EditPostModal } from './EditPostModal';
+import { formatDate } from '@/lib/utils';
 
 export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
@@ -79,6 +80,11 @@ export function PostCard({ post }: { post: Post }) {
             {post.content && <p>{post.content}</p>}
           </Link>
           {post.originalPost && <SharedPostPreview post={post.originalPost} />}
+          {post.createdAt !== post.updatedAt && (
+            <div className=" ml-auto text-xs italic text-muted-foreground">
+              Last changed: {formatDate(post.updatedAt)}
+            </div>
+          )}
         </CardContent>
         <CardFooter className="flex gap-2 pl-10 py-2">
           <div
