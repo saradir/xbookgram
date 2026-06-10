@@ -12,11 +12,14 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { ProfilePic } from './ProfilePic';
 import { Link } from 'react-router-dom';
 import { DropdownComment } from './DropdownComment';
+import { useState } from 'react';
+import { EditCommentForm } from './EditCommentForm';
 
 export function CommentCard({ comment }: { comment: Comment }) {
   const { mutate } = useToggleLike('comment', comment.id);
   const { currentUser } = useCurrentUser();
   const isCurrentUser = comment.author.id === currentUser?.user.id;
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <Card>
@@ -38,11 +41,21 @@ export function CommentCard({ comment }: { comment: Comment }) {
           })}
         </div>
         <CardAction className="ml-auto">
-          {isCurrentUser && <DropdownComment commentId={comment.id} />}
+          {isCurrentUser && (
+            <DropdownComment commentId={comment.id} onEdit={setIsEditing} />
+          )}
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col pl-15 gap-3">
-        <div>{comment.content}</div>
+        {isEditing ? (
+          <EditCommentForm
+            commentId={comment.id}
+            initialContent={comment.content}
+            setIsEditing={setIsEditing}
+          />
+        ) : (
+          <div>{comment.content}</div>
+        )}
       </CardContent>
 
       <CardFooter className="flex flex-row gap-6 pl-0 py-2">

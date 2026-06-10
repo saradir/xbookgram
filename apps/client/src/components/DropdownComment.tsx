@@ -11,7 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useDeleteComment } from '@/hooks/useDeleteComment';
 
-export function DropdownComment({ commentId }: { commentId: number }) {
+export function DropdownComment({
+  commentId,
+  onEdit,
+}: {
+  commentId: number;
+  onEdit: (open: boolean) => void;
+}) {
   const { mutate: deleteComment, isPending: pendingDelete } =
     useDeleteComment();
   return (
@@ -26,7 +32,10 @@ export function DropdownComment({ commentId }: { commentId: number }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => onEdit(true)}
+          >
             <PencilIcon />
             Edit
           </DropdownMenuItem>
