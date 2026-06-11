@@ -12,7 +12,7 @@ export function ResultRow({ user }: { user: UserProfile }) {
   return (
     <div
       className="flex gap-2 p-1 m-1 items-center cursor-pointer hover:bg-accent"
-      onMouseDown={() => navigate(`/users/${user.id}`)}
+      onClick={() => navigate(`/users/${user.id}`)}
     >
       <ProfilePic
         src={user.profilePic}
@@ -23,7 +23,10 @@ export function ResultRow({ user }: { user: UserProfile }) {
 
       {currentUser?.user.id !== user.id && (
         <Button
-          onClick={() => mutate()}
+          onClick={(e) => {
+            e.stopPropagation();
+            mutate();
+          }}
           className="cursor-pointer w-24 ml-auto"
         >
           {user.isFollowed ? 'Unfollow' : 'Follow'}{' '}
