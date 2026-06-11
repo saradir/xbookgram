@@ -3,15 +3,18 @@ import { Searchbar } from '@/components/Searchbar';
 import { Separator } from '@/components/ui/separator';
 import { useSearch } from '@/hooks/useSearch';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get('q') || '');
+
   const { users, isError } = useSearch(query);
 
   const handleSearch = (query: string) => setQuery(query);
   return (
     <div className="flex flex-col justify-center items-center gap-5">
-      <Searchbar onSubmit={handleSearch} />
+      <Searchbar onSubmit={handleSearch} initialInput={query} />
       <Separator className="w-30" />
       <div className="flex flex-col justify-center w-80 divide-y">
         {users &&

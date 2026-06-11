@@ -1,12 +1,16 @@
-import { useSearchParams } from 'react-router-dom';
 import { Input } from './ui/input';
 import { Field } from './ui/field';
 import { Button } from './ui/button';
 import { useState } from 'react';
 
-export function Searchbar({ onSubmit }: { onSubmit: (query: string) => void }) {
-  const [searchParams] = useSearchParams();
-  const [input, setInput] = useState(searchParams.get('q') || '');
+export function Searchbar({
+  onSubmit,
+  initialInput,
+}: {
+  initialInput: string;
+  onSubmit: (query: string) => void;
+}) {
+  const [input, setInput] = useState(initialInput);
 
   return (
     <div>
