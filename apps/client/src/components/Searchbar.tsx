@@ -2,22 +2,18 @@ import { Input } from './ui/input';
 import { Field } from './ui/field';
 import { Button } from './ui/button';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export function Searchbar({
-  onSubmit,
-  initialInput,
-}: {
-  initialInput: string;
-  onSubmit: (query: string) => void;
-}) {
+export function Searchbar({ initialInput }: { initialInput: string }) {
   const [input, setInput] = useState(initialInput);
+  const navigate = useNavigate();
 
   return (
     <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit(input);
+          navigate(`/search/?q=${input}`);
         }}
       >
         <Field
@@ -36,7 +32,7 @@ export function Searchbar({
           <Button
             type="button"
             className="cursor-pointer"
-            onClick={() => onSubmit(input)}
+            onClick={() => navigate(`/search/?q=${input}`)}
             disabled={input.length < 3}
           >
             Search
