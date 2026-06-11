@@ -6,8 +6,10 @@ export function useToggleFollow(userId: number) {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: () =>
       apiFetch(`/api/users/${userId}/toggle-follow`, { method: 'POST' }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ['user', userId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', userId] });
+      queryClient.invalidateQueries({ queryKey: ['search'] });
+    },
   });
 
   return { mutate, isPending, isError };
