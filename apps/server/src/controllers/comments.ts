@@ -71,7 +71,28 @@ export const createComment: RequestHandler = async (req, res, next) => {
         authorId: Number(req.user!.id),
         content: req.body.content,
       },
+      include: {
+        post: {
+          select: {
+            authorId: true,
+          },
+        },
+      },
     });
+
+    let notification;
+    if (Number(req.user!.id) !== comment.post.authorId) {
+      await prisma.notification.create({
+        data: {
+          actorId: Number(req.user!.id),
+          recipientId: Number(comment.post.authorId),
+          postId: postId,
+          commentId: Number(comment.id),
+          type: 'COMMENT',
+        },
+      });
+    }
+
     return res.status(201).json({
       success: true,
       data: {

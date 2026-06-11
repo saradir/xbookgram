@@ -57,6 +57,18 @@ export const toggleFollowUser: RequestHandler = async (req, res, next) => {
       });
     }
 
+    // Create notification
+    let notification;
+    if (result === 'followed') {
+      notification = await prisma.notification.create({
+        data: {
+          actorId: userId,
+          recipientId: followedId,
+          type: 'FOLLOW',
+        },
+      });
+    }
+
     return res.status(200).json({
       success: true,
       data: {

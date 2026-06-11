@@ -311,6 +311,7 @@ export const deletePost: RequestHandler = async (req, res, next) => {
 export const sharePost: RequestHandler = async (req, res, next) => {
   try {
     const originalPostId = Number(req.params.postId);
+    const userId = Number(req.user!.id);
     const originalPost = await prisma.post.findUnique({
       where: {
         id: originalPostId,
@@ -323,10 +324,23 @@ export const sharePost: RequestHandler = async (req, res, next) => {
     const shared = await prisma.post.create({
       data: {
         content: req.body.content,
-        authorId: Number(req.user!.id),
+        authorId: userId,
         originalPostId,
       },
     });
+
+    // Create notification
+    let notification;
+    if (Number(originalPost.authorId) !== userId) {
+      notification = await prisma.notification.create({
+        data: {
+          actorId: userId,
+          recipientId: Number(originalPost.authorId),
+          postId: shared.id,
+          type: 'SHARE',
+        },
+      });
+    }
 
     return res.status(201).json({
       success: true,
@@ -350,6 +364,8 @@ export const togglePostLike: RequestHandler = async (req, res, next) => {
       },
     });
 
+    let newLike;
+
     if (like) {
       result = 'deleted';
       await prisma.postLikes.delete({
@@ -359,10 +375,30 @@ export const togglePostLike: RequestHandler = async (req, res, next) => {
       });
     } else {
       result = 'created';
-      await prisma.postLikes.create({
+      newLike = await prisma.postLikes.create({
         data: {
           userId,
           postId,
+        },
+        include: {
+          post: {
+            select: {
+              authorId: true,
+            },
+          },
+        },
+      });
+    }
+
+    // Create notification
+    let notification;
+    if (result === 'created' && Number(newLike?.post.authorId) !== userId) {
+      notification = await prisma.notification.create({
+        data: {
+          actorId: userId,
+          recipientId: Number(newLike?.post.authorId),
+          postId: postId,
+          type: 'LIKE',
         },
       });
     }

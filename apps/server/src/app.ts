@@ -9,6 +9,7 @@ import { postsRouter } from './routers/posts.js';
 import { authenticate } from './middlewares/auth.js';
 import { commentRouter } from './routers/comments.js';
 import { userRouter } from './routers/user.js';
+import { notificationRouter } from './routers/notifications.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.use('/auth', authRouter);
 app.use('/api/posts', authenticate, postsRouter);
 app.use('/api/comments', authenticate, commentRouter);
 app.use('/api/users', authenticate, userRouter);
+app.use('/api/notifications', authenticate, notificationRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
