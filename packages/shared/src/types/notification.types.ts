@@ -3,7 +3,7 @@ import { User } from './user.types.js';
 export type Notification = {
   id: number;
   actorId: number;
-  receipientId: number;
+  recipientId: number;
   isRead: boolean;
   createdAt: string;
   type: 'LIKE' | 'SHARE' | 'FOLLOW' | 'COMMENT';
