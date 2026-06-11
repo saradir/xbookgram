@@ -7,6 +7,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { PostPage } from './pages/PostPage';
+import { SearchPage } from './pages/SearchPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<FeedPage />} />
           <Route path="/posts/:postId" element={<PostPage />} />
           <Route path="/users/:userId" element={<ProfilePage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
         <Route path="/onboarding" element={<OnboardingPage />} />
       </Route>
