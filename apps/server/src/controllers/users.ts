@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
+import { formtatUser } from '../utils/formatUser.js';
 
 const USERS_PER_PAGE = 25;
 
@@ -119,16 +120,7 @@ export const getUser: RequestHandler = async (req, res, next) => {
         success: false,
         error: 'User not found',
       });
-    const isFollowed = user.followers.length > 0;
-    const isFollower = user.following.length > 0;
-    const formatted = {
-      id: user.id,
-      username: user.username,
-      profilePic: user.profilePic,
-      _count: user._count,
-      isFollower,
-      isFollowed,
-    };
+    const formatted = formtatUser(user);
 
     return res.status(200).json({
       success: true,
@@ -180,7 +172,14 @@ export const searchUsers: RequestHandler = async (req, res, next) => {
       }),
       take: USERS_PER_PAGE + 1,
       orderBy: { createdAt: 'desc' },
-      select: { id: true, username: true, name: true, profilePic: true },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        profilePic: true,
+        followers: { where: { followingUserId: Number(req.user?.id) } },
+        following: { where: { followedUserId: Number(req.user?.id) } },
+      },
     });
 
     const hasNextPage = users.length > USERS_PER_PAGE;
@@ -189,9 +188,10 @@ export const searchUsers: RequestHandler = async (req, res, next) => {
       ? trimmed[Number(trimmed.length - 1)].id
       : null;
 
+    const formatted = trimmed.map((user) => formtatUser(user));
     return res.status(200).json({
       success: true,
-      data: { users: trimmed, cursor: nextCursor },
+      data: { users: formatted, cursor: nextCursor },
     });
   } catch (error) {
     next(error);
