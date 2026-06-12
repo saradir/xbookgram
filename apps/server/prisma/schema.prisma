@@ -128,7 +128,8 @@ model Notification {
 }
 
 enum Event {
-  LIKE
+  POST_LIKE
+  COMMENT_LIKE
   SHARE
   FOLLOW
   COMMENT

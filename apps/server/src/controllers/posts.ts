@@ -398,7 +398,7 @@ export const togglePostLike: RequestHandler = async (req, res, next) => {
           actorId: userId,
           recipientId: Number(newLike?.post.authorId),
           postId: postId,
-          type: 'LIKE',
+          type: 'POST_LIKE',
         },
       });
     }

@@ -6,7 +6,7 @@ export type Notification = {
   recipientId: number;
   isRead: boolean;
   createdAt: string;
-  type: 'LIKE' | 'SHARE' | 'FOLLOW' | 'COMMENT';
+  type: 'POST_LIKE' | 'COMMENT_LIKE' | 'SHARE' | 'FOLLOW' | 'COMMENT';
   actor: User | null;
   postId: number | null;
   commentId: number | null;

@@ -175,6 +175,7 @@ export const toggleCommentLike: RequestHandler = async (req, res, next) => {
     const commentId = Number(req.params.commentId);
     const userId = Number(req.user!.id);
     let result;
+    let newLike;
     const like = await prisma.commentLikes.findUnique({
       where: {
         userId_commentId: { userId, commentId },
@@ -190,10 +191,29 @@ export const toggleCommentLike: RequestHandler = async (req, res, next) => {
       });
     } else {
       result = 'created';
-      await prisma.commentLikes.create({
+      newLike = await prisma.commentLikes.create({
         data: {
           userId,
           commentId,
+        },
+        include: {
+          comment: {
+            select: { authorId: true, postId: true },
+          },
+        },
+      });
+    }
+
+    // Create notification
+    let notification;
+    if (result === 'created' && Number(newLike?.comment.authorId) !== userId) {
+      notification = await prisma.notification.create({
+        data: {
+          actorId: userId,
+          recipientId: Number(newLike?.comment.authorId),
+          commentId: commentId,
+          postId: newLike?.comment.postId,
+          type: 'COMMENT_LIKE',
         },
       });
     }
