@@ -6,9 +6,10 @@ import { DropdownMenuAvatar } from './DropdownAvatar';
 import { SearchbarLive } from './SearchbarLive';
 import { Button } from './ui/button';
 import { useNotification } from '@/hooks/useNotification';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NotificationList } from './NotificationList';
 import { Badge } from './ui/badge';
+
 export function Navbar() {
   const { currentUser } = useCurrentUser();
   const { notifications } = useNotification();
@@ -16,7 +17,18 @@ export function Navbar() {
   const toggleNotifications = () => setShowNotifications((prev) => !prev);
 
   const unreadCount = notifications?.filter((n) => !n.isRead).length ?? 0;
-  console.log(unreadCount);
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-10 bg-white border-b mb-8 p-2 h-12 flex items-center">
@@ -27,12 +39,11 @@ export function Navbar() {
 
       <div className="flex justify-end ml-auto items-center gap-1">
         <CreatePostModal />
-        <div className="relative">
+        <div ref={ref} className="relative">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleNotifications}
-            onBlur={toggleNotifications}
             className="rounded-md hover:bg-muted cursor-pointer"
           >
             <Bell />
