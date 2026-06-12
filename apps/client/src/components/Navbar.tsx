@@ -9,12 +9,14 @@ import { useNotification } from '@/hooks/useNotification';
 import { useState, useEffect, useRef } from 'react';
 import { NotificationList } from './NotificationList';
 import { Badge } from './ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 export function Navbar() {
   const { currentUser } = useCurrentUser();
   const { notifications } = useNotification();
   const [showNotifications, setShowNotifications] = useState(false);
   const toggleNotifications = () => setShowNotifications((prev) => !prev);
+  const navigate = useNavigate();
 
   const unreadCount = notifications?.filter((n) => !n.isRead).length ?? 0;
 
@@ -57,7 +59,11 @@ export function Navbar() {
             <NotificationList className="absolute  top-full right-0 w-80 z-50 bg-background  rounded-md shadow-md" />
           )}
         </div>
-        <Button variant="ghost" className="rounded-md  cursor-pointer">
+        <Button
+          variant="ghost"
+          className="rounded-md  cursor-pointer"
+          onClick={() => navigate('/')}
+        >
           <Home />
         </Button>
         <DropdownMenuAvatar user={currentUser?.user} />

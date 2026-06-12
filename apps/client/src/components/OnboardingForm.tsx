@@ -32,7 +32,6 @@ export function OnboardingForm({ user }: { user: CurrentUser }) {
   });
 
   const handleSubmit = (e: React.SyntheticEvent) => {
-    console.log('handling');
     setError('');
     e.preventDefault();
     const result = UserOnboardingSchema.safeParse({ username, name });

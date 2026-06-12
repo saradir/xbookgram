@@ -36,7 +36,7 @@ export function CreatePostModal() {
     <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="cursor-pointer">
             <Plus />
           </Button>
         </DialogTrigger>

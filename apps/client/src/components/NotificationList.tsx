@@ -4,7 +4,6 @@ import { NotificationRow } from './NotificationRow';
 export function NotificationList({ className }: { className: string }) {
   const { notifications } = useNotification();
 
-  console.log(notifications);
   if (!notifications || notifications.length === 0)
     return (
       <div
