@@ -11,8 +11,8 @@ export function ProfileHeader({ user }: { user: UserProfile }) {
   return (
     <header className="flex gap-2 ">
       <ProfilePic
-        src={currentUser?.user.profilePic}
-        username={currentUser?.user.username || ''}
+        src={user.profilePic}
+        username={user.username || ''}
         className="h-16 w-16"
       />
       <div className="flex flex-col self-end ">
