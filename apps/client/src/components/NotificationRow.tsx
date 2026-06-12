@@ -49,6 +49,9 @@ export function NotificationRow({
       <span className="text-xs text-muted-foreground shrink-0 ml-auto">
         {formatDate(notification.createdAt)}
       </span>
+      {!notification.isRead && (
+        <div className="h-2 w-2 rounded-full bg-blue-500 shrink-0" />
+      )}
     </div>
   );
 }
