@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { UserProfile } from '@xbookgram/shared';
 
 export function useSearch(query: string) {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ['search', query],
     queryFn: () =>
       apiFetch<{ users: UserProfile[] }>(`/api/users/search?q=${query}`),
@@ -11,5 +11,5 @@ export function useSearch(query: string) {
     retry: false,
   });
 
-  return { users: data?.users, isLoading, isError };
+  return { users: data?.users, isPending, isError };
 }

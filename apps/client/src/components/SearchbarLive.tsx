@@ -7,11 +7,12 @@ import { useSearch } from '@/hooks/useSearch';
 import { useDebounce } from '@/hooks/useDebounce';
 import { ResultRowLive } from './ResultRowLive';
 import { useNavigate } from 'react-router-dom';
+import { Spinner } from './ui/spinner';
 
 export function SearchbarLive() {
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 1000);
-  const { users } = useSearch(debouncedQuery);
+  const { users, isPending } = useSearch(debouncedQuery);
   const [showResults, setShowResults] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +44,7 @@ export function SearchbarLive() {
         />
         {showResults && (
           <div className="absolute top-full left-0 w-full z-50 bg-background  rounded-md shadow-md">
+            {isPending && <Spinner />}
             {users?.map((u) => (
               <ResultRowLive key={u.id} user={u} />
             ))}
