@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
 import { formatComment } from '../utils/formatComment.js';
+import { createNotification } from '../services/notifications.js';
 
 const COMMENTS_PER_PAGE = 20;
 
@@ -80,17 +81,16 @@ export const createComment: RequestHandler = async (req, res, next) => {
       },
     });
 
+    // Create notification
     let notification;
     if (Number(req.user!.id) !== comment.post.authorId) {
-      await prisma.notification.create({
-        data: {
-          actorId: Number(req.user!.id),
-          recipientId: Number(comment.post.authorId),
-          postId: postId,
-          commentId: Number(comment.id),
-          type: 'COMMENT',
-        },
-      });
+      createNotification(
+        Number(comment.post.authorId),
+        Number(req.user!.id),
+        postId,
+        Number(comment.id),
+        'COMMENT'
+      );
     }
 
     return res.status(201).json({
@@ -207,15 +207,13 @@ export const toggleCommentLike: RequestHandler = async (req, res, next) => {
     // Create notification
     let notification;
     if (result === 'created' && Number(newLike?.comment.authorId) !== userId) {
-      notification = await prisma.notification.create({
-        data: {
-          actorId: userId,
-          recipientId: Number(newLike?.comment.authorId),
-          commentId: commentId,
-          postId: newLike?.comment.postId,
-          type: 'COMMENT_LIKE',
-        },
-      });
+      createNotification(
+        Number(newLike?.comment.authorId),
+        userId,
+        newLike?.comment.postId || null,
+        commentId,
+        'COMMENT_LIKE'
+      );
     }
 
     return res.status(200).json({

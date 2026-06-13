@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
 import { formatPost } from '../utils/formatPost.js';
 import { formatComment } from '../utils/formatComment.js';
+import { createNotification } from '../services/notifications.js';
 
 const POSTS_PER_PAGE = 10;
 
@@ -330,16 +331,14 @@ export const sharePost: RequestHandler = async (req, res, next) => {
     });
 
     // Create notification
-    let notification;
     if (Number(originalPost.authorId) !== userId) {
-      notification = await prisma.notification.create({
-        data: {
-          actorId: userId,
-          recipientId: Number(originalPost.authorId),
-          postId: shared.id,
-          type: 'SHARE',
-        },
-      });
+      createNotification(
+        Number(originalPost.authorId),
+        userId,
+        shared.id,
+        null,
+        'SHARE'
+      );
     }
 
     return res.status(201).json({
@@ -391,16 +390,14 @@ export const togglePostLike: RequestHandler = async (req, res, next) => {
     }
 
     // Create notification
-    let notification;
     if (result === 'created' && Number(newLike?.post.authorId) !== userId) {
-      notification = await prisma.notification.create({
-        data: {
-          actorId: userId,
-          recipientId: Number(newLike?.post.authorId),
-          postId: postId,
-          type: 'POST_LIKE',
-        },
-      });
+      createNotification(
+        Number(newLike?.post.authorId),
+        userId,
+        postId,
+        null,
+        'POST_LIKE'
+      );
     }
 
     return res.status(200).json({

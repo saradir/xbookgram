@@ -12,7 +12,6 @@ import { userRouter } from './routers/user.js';
 import { notificationRouter } from './routers/notifications.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,9 +23,5 @@ app.use('/api/comments', authenticate, commentRouter);
 app.use('/api/users', authenticate, userRouter);
 app.use('/api/notifications', authenticate, notificationRouter);
 app.use(errorHandler);
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
 
 export default app;

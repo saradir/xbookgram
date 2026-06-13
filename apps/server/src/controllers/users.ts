@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
 import { formtatUser } from '../utils/formatUser.js';
+import { createNotification } from '../services/notifications.js';
 
 const USERS_PER_PAGE = 25;
 
@@ -58,15 +59,8 @@ export const toggleFollowUser: RequestHandler = async (req, res, next) => {
     }
 
     // Create notification
-    let notification;
     if (result === 'followed') {
-      notification = await prisma.notification.create({
-        data: {
-          actorId: userId,
-          recipientId: followedId,
-          type: 'FOLLOW',
-        },
-      });
+      createNotification(followedId, userId, null, null, 'FOLLOW');
     }
 
     return res.status(200).json({
