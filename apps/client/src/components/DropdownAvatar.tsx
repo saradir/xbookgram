@@ -11,8 +11,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ProfilePic } from './ProfilePic';
 import type { User } from '@xbookgram/shared';
+import { useNavigate } from 'react-router-dom';
 
 export function DropdownMenuAvatar({ user }: { user?: User }) {
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,13 +28,18 @@ export function DropdownMenuAvatar({ user }: { user?: User }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              navigate('/settings');
+            }}
+          >
             <SettingsIcon />
             Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <LogOutIcon />
           Sign Out
         </DropdownMenuItem>

@@ -8,6 +8,10 @@ import { FeedPage } from './pages/FeedPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { PostPage } from './pages/PostPage';
 import { SearchPage } from './pages/SearchPage';
+import { SettingsLayout } from './pages/SettingsLayout';
+import { UserInfoSettings } from './pages/UserInfoSettings';
+import { PrivacySettings } from './pages/PrivacySettings';
+import { MiscSettings } from './pages/MiscSettings';
 
 function App() {
   return (
@@ -22,6 +26,12 @@ function App() {
           <Route path="/posts/:postId" element={<PostPage />} />
           <Route path="/users/:userId" element={<ProfilePage />} />
           <Route path="/search" element={<SearchPage />} />
+
+          <Route path="settings" element={<SettingsLayout />}>
+            <Route path="/settings/info" element={<UserInfoSettings />} />
+            <Route path="/settings/privacy" element={<PrivacySettings />} />
+            <Route path="/settings/misc" element={<MiscSettings />} />
+          </Route>
         </Route>
         <Route path="/onboarding" element={<OnboardingPage />} />
       </Route>
