@@ -21,7 +21,7 @@ export function NotificationList({ className }: { className: string }) {
 
   return (
     <div
-      className={`flex flex-col items-center divide-y gap-1 w-96 ${className}`}
+      className={`flex flex-col items-center divide-y gap-1 w-96 max-h-50 overflow-y-scroll  ${className}`}
     >
       {notifications.map((n) => (
         <NotificationRow

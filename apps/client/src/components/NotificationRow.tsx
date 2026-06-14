@@ -35,7 +35,7 @@ export function NotificationRow({
 
   return (
     <div
-      className="flex w-full h-16 items-center gap-2 px-3 cursor-pointer hover:bg-muted rounded-md"
+      className="flex w-full min-h-12 items-center gap-2 px-3 cursor-pointer hover:bg-muted rounded-md"
       onClick={() => {
         handleClick(notification.id);
         navigate(link);
