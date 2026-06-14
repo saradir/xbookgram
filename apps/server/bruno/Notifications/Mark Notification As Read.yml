@@ -1,0 +1,19 @@
+info:
+  name: Mark Notification As Read
+  type: http
+  seq: 2
+
+http:
+  method: PATCH
+  url: "{{SERVER_URL}}/api/notifications/:notificationId"
+  params:
+    - name: notificationId
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
