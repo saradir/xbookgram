@@ -1,8 +1,14 @@
 import { useNotification } from '@/hooks/useNotification';
 import { NotificationRow } from './NotificationRow';
+import { useMarkReadNotification } from '@/hooks/useMarkReadNotification';
 
 export function NotificationList({ className }: { className: string }) {
   const { notifications } = useNotification();
+  const { mutate: markRead } = useMarkReadNotification();
+
+  const handleClick = (notificationId: number) => {
+    markRead(notificationId);
+  };
 
   if (!notifications || notifications.length === 0)
     return (
@@ -18,7 +24,11 @@ export function NotificationList({ className }: { className: string }) {
       className={`flex flex-col items-center divide-y gap-1 w-96 ${className}`}
     >
       {notifications.map((n) => (
-        <NotificationRow key={n.id} notification={n} />
+        <NotificationRow
+          key={n.id}
+          notification={n}
+          handleClick={handleClick}
+        />
       ))}
     </div>
   );

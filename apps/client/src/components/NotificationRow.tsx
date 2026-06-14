@@ -4,8 +4,10 @@ import { formatDate } from '@/lib/utils';
 
 export function NotificationRow({
   notification,
+  handleClick,
 }: {
   notification: Notification;
+  handleClick: (notificationId: number) => void;
 }) {
   const navigate = useNavigate();
   if (!notification) return null;
@@ -34,7 +36,10 @@ export function NotificationRow({
   return (
     <div
       className="flex w-full h-16 items-center gap-2 px-3 cursor-pointer hover:bg-muted rounded-md"
-      onClick={() => link && navigate(link)}
+      onClick={() => {
+        handleClick(notification.id);
+        navigate(link);
+      }}
     >
       <span
         className="font-semibold hover:underline cursor-pointer shrink-0"
