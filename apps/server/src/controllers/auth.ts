@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
+import jwt from 'jsonwebtoken';
+import { success } from 'zod';
 
 export const getCurrentUser: RequestHandler = async (req, res, next) => {
   try {
@@ -21,6 +23,37 @@ export const getCurrentUser: RequestHandler = async (req, res, next) => {
         .status(400)
         .json({ success: false, error: 'Failed to retreive user' });
     return res.status(200).json({ success: 'true', data: { user } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const guestLogin: RequestHandler = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: 1 },
+    });
+
+    if (!user)
+      return res.status(400).json({
+        success: false,
+        error: 'Guest user not found',
+      });
+
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: '30d' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).redirect(`${process.env.CLIENT_URL}`);
   } catch (error) {
     next(error);
   }

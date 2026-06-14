@@ -5,7 +5,7 @@ import { authenticate } from '../middlewares/auth.js';
 import { createValidator } from '../middlewares/validate.js';
 import { UserOnboardingSchema } from '@xbookgram/shared';
 import { onboardUser } from '../controllers/users.js';
-import { getCurrentUser } from '../controllers/auth.js';
+import { getCurrentUser, guestLogin } from '../controllers/auth.js';
 
 export const authRouter = Router();
 
@@ -21,7 +21,7 @@ authRouter.get(
   '/google/callback',
   passport.authenticate('google', {
     session: false,
-    failureRedirect: 'http://localhost:5173/login?error=auth_failed',
+    failureRedirect: `${process.env.CLIENT_URL}/login?error=auth_failed`,
   }),
   (req, res) => {
     const user = req.user as any;
@@ -39,11 +39,12 @@ authRouter.get(
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect('http://localhost:5173/dashboard');
+    res.redirect(`${process.env.CLIENT_URL}`);
   }
 );
 
 authRouter.get('/me', authenticate, getCurrentUser);
+authRouter.get('/guest-login', guestLogin);
 
 authRouter.post(
   '/onboard',
