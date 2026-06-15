@@ -8,6 +8,7 @@ import {
   UserQuerySchema,
 } from '@xbookgram/shared';
 import { requireOnboarded } from '../middlewares/auth.js';
+import upload from '../config/multer.js';
 
 export const userRouter = Router();
 
@@ -16,6 +17,11 @@ const bodyValidator = createValidator(UserBodySchema, 'body');
 const queryValidator = createValidator(UserQuerySchema, 'query');
 
 userRouter.patch('/profile', bodyValidator, userController.editProfile);
+userRouter.patch(
+  '/profile/upload-avatar',
+  upload.single('avatar'),
+  userController.uploadAvatar
+);
 userRouter.get('/search', queryValidator, userController.searchUsers);
 userRouter.get('/:userId', paramsValidator, userController.getUser);
 userRouter.get('/:userId/posts', paramsValidator, getPostsByUser);

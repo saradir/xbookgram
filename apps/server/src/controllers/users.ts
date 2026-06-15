@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
 import { formtatUser } from '../utils/formatUser.js';
 import { createNotification } from '../services/notifications.js';
+import cloudinary from '../config/cloudinary.js';
 
 const USERS_PER_PAGE = 25;
 
@@ -199,6 +200,34 @@ export const searchUsers: RequestHandler = async (req, res, next) => {
       success: true,
       data: { users: formatted, cursor: nextCursor },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const uploadAvatar: RequestHandler = async (req, res, next) => {
+  try {
+    if (!req.file)
+      return res
+        .status(400)
+        .json({ success: false, error: 'No file provided' });
+
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ folder: 'avatars' }, (error, result) =>
+          error ? reject(error) : resolve(result)
+        )
+        .end(req.file!.buffer);
+    });
+
+    const url = (result as any).secure_url;
+
+    await prisma.user.update({
+      where: { id: req.user!.id },
+      data: { profilePic: url },
+    });
+
+    res.json({ success: true, data: { profilePic: url } });
   } catch (error) {
     next(error);
   }
