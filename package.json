@@ -8,7 +8,7 @@
     "lint": "eslint",
     "dev": "concurrently \"pnpm --filter=server dev\" \"pnpm --filter=client dev\"",
     "build": "pnpm -r build",
-    "prepare": "husky"
+    "prepare": ""
   },
   "keywords": [],
   "author": "",
@@ -16,9 +16,12 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "^11.1.2",
+      "version": "^11.7.0",
       "onFail": "download"
     }
+  },
+  "engines": {
+  "node": ">=20.19.0"
   },
   "type": "module",
   "devDependencies": {
@@ -27,7 +30,6 @@
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "husky": "^9.1.7",
     "lint-staged": "^17.0.5",
     "prettier": "^3.8.3"
   },

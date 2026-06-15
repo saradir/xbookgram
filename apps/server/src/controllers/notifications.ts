@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express';
 import prisma from '../config/prisma.js';
-import { success } from 'zod';
 
 export const getNotifications: RequestHandler = async (req, res, next) => {
   try {

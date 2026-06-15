@@ -1,0 +1,6 @@
+[build]
+builder = "railpack"
+buildCommand = "pnpm install --no-frozen-lockfile && pnpm --filter shared build && pnpm --filter server generate && pnpm --filter server build"
+
+[deploy]
+startCommand = "node apps/server/dist/src/server.js"

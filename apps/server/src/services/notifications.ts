@@ -1,5 +1,5 @@
 import prisma from '../config/prisma.js';
-import { Event } from '../generated/client/index.js';
+import { Event } from '@prisma/client';
 import { io } from '../server.js';
 
 export async function createNotification(

@@ -1,0 +1,6 @@
+[build]
+builder = "railpack"
+buildCommand = "pnpm install --no-frozen-lockfile && pnpm --filter shared build && pnpm --filter client build"
+
+[deploy]
+startCommand = "npx serve apps/client/dist"
