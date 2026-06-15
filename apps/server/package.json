@@ -1,5 +1,6 @@
 {
   "name": "@xbookgram/server",
+  "packageManager": "pnpm@11.6.0",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
