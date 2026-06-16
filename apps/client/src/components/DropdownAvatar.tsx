@@ -39,7 +39,13 @@ export function DropdownMenuAvatar({ user }: { user?: User }) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => {
+            localStorage.removeItem('token');
+            navigate('/login');
+          }}
+        >
           <LogOutIcon />
           Sign Out
         </DropdownMenuItem>
