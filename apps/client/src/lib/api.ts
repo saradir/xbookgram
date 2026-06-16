@@ -5,10 +5,17 @@ export async function apiFetch<T>(
   options?: RequestInit
 ): Promise<T> {
   const isFormData = options?.body instanceof FormData;
+  const token = localStorage.getItem('token');
+  const headers = new Headers(options?.headers);
+  if (!isFormData) {
+    headers.set('Content-Type', 'application/json');
+  }
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
   const res = await fetch(`${BASE_URL}${path}`, {
-    credentials: 'include', // sends JWT cookie automatically
     ...options,
-    headers: { ...(!isFormData && { 'Content-Type': 'application/json' }) },
+    headers
   });
 
   const data = await res.json();

@@ -12,12 +12,14 @@ import { SettingsLayout } from './pages/SettingsLayout';
 import { UserInfoSettings } from './pages/UserInfoSettings';
 import { PrivacySettings } from './pages/PrivacySettings';
 import { MiscSettings } from './pages/MiscSettings';
+import AuthCallbackPage from './pages/AuthCallbackPage';
 
 function App() {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={ <AuthCallbackPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>
