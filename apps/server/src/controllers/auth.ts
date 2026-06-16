@@ -31,7 +31,7 @@ export const getCurrentUser: RequestHandler = async (req, res, next) => {
 export const guestLogin: RequestHandler = async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
-      where: { id: 1 },
+      where: { email: 'guest@example.com' },
     });
 
     if (!user)
@@ -45,7 +45,7 @@ export const guestLogin: RequestHandler = async (req, res, next) => {
       process.env.JWT_SECRET!,
       { expiresIn: '30d' }
     );
-    
+
     res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}`);  } catch (error) {
     next(error);
   }
