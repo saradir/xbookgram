@@ -12,9 +12,11 @@ import {
 import { ProfilePic } from './ProfilePic';
 import type { User } from '@xbookgram/shared';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function DropdownMenuAvatar({ user }: { user?: User }) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,6 +45,7 @@ export function DropdownMenuAvatar({ user }: { user?: User }) {
           className="cursor-pointer"
           onClick={() => {
             localStorage.removeItem('token');
+            queryClient.removeQueries({ queryKey: ['currentUser'] });
             navigate('/login');
           }}
         >
