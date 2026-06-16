@@ -5,19 +5,29 @@ import { faker } from '@faker-js/faker';
 async function main() {
   console.log('🌱 Seeding...');
 
+  // Clear in reverse dependency order so re-runs are safe
+  await prisma.notification.deleteMany();
+  await prisma.commentLikes.deleteMany();
+  await prisma.postLikes.deleteMany();
+  await prisma.follows.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.post.deleteMany();
+  await prisma.user.deleteMany();
+  console.log('🧹 Cleared existing data');
+
   // --- USERS ---
-  // use email as the unique identifier
   const users = await Promise.all(
-    Array.from({ length: 20 }).map(() => {
+    Array.from({ length: 20 }, (_, i) => {
       const firstName = faker.person.firstName();
       const lastName = faker.person.lastName();
+      const email = faker.internet.email({ firstName, lastName });
+      // Append index to guarantee unique usernames across this run
+      const username = `${faker.internet.username({ firstName, lastName })}_${i}`;
 
-      return prisma.user.upsert({
-        where: { email: faker.internet.email({ firstName, lastName }) },
-        update: {},
-        create: {
-          email: faker.internet.email({ firstName, lastName }),
-          username: faker.internet.username({ firstName, lastName }),
+      return prisma.user.create({
+        data: {
+          email,
+          username,
           name: `${firstName} ${lastName}`,
           profilePic: faker.image.avatar(),
           isOnboarded: true,
@@ -26,10 +36,6 @@ async function main() {
     })
   );
   console.log(`✅ ${users.length} users`);
-
-  // Add my user for testing
-  const me = await prisma.user.findUnique({ where: { id: 5 } });
-  if (me) users.push(me);
 
   // --- POSTS ---
   const posts = await Promise.all(
@@ -47,23 +53,15 @@ async function main() {
   console.log(`✅ ${posts.length} posts`);
 
   // --- FOLLOWS ---
-  // each user follows ~5 random others (excluding themselves)
+  // Each user follows up to 5 unique others (arrayElements returns distinct items)
   for (const user of users) {
-    const targets = faker.helpers
-      .arrayElements(users, 5)
-      .filter((u) => u.id !== user.id);
+    const others = users.filter((u) => u.id !== user.id);
+    const targets = faker.helpers.arrayElements(others, Math.min(5, others.length));
 
     await Promise.all(
       targets.map((target) =>
-        prisma.follows.upsert({
-          where: {
-            followingUserId_followedUserId: {
-              followedUserId: target.id,
-              followingUserId: user.id,
-            },
-          },
-          update: {},
-          create: {
+        prisma.follows.create({
+          data: {
             followingUserId: user.id,
             followedUserId: target.id,
           },
@@ -71,36 +69,33 @@ async function main() {
       )
     );
   }
-  console.log(`✅ follows`);
+  console.log('✅ follows');
 
   // --- POST LIKES ---
-  // each post gets liked by ~3 random users
+  // Each post gets liked by up to 3 unique random users
   for (const post of posts) {
-    const likers = faker.helpers.arrayElements(users, 3);
+    const likers = faker.helpers.arrayElements(users, Math.min(3, users.length));
 
     await Promise.all(
       likers.map((user) =>
-        prisma.postLikes.upsert({
-          where: { userId_postId: { userId: user.id, postId: post.id } },
-          update: {},
-          create: { userId: user.id, postId: post.id },
+        prisma.postLikes.create({
+          data: { userId: user.id, postId: post.id },
         })
       )
     );
   }
-  console.log(`✅ post likes`);
+  console.log('✅ post likes');
 
   // --- COMMENTS ---
-  // each post gets ~2 comments from random users
   const comments = [];
   for (const post of posts) {
     const commenters = faker.helpers.arrayElements(users, 2);
 
-    for (const user of commenters) {
+    for (const commenter of commenters) {
       const comment = await prisma.comment.create({
         data: {
           content: faker.lorem.sentence(),
-          authorId: user.id,
+          authorId: commenter.id,
           postId: post.id,
         },
       });
@@ -115,22 +110,18 @@ async function main() {
 
     await Promise.all(
       likers.map((user) =>
-        prisma.commentLikes.upsert({
-          where: {
-            userId_commentId: { userId: user.id, commentId: comment.id },
-          },
-          update: {},
-          create: { userId: user.id, commentId: comment.id },
+        prisma.commentLikes.create({
+          data: { userId: user.id, commentId: comment.id },
         })
       )
     );
   }
-  console.log(`✅ comment likes`);
+  console.log('✅ comment likes');
 
-  // --- Shares ---
+  // --- SHARES ---
   const shares = await Promise.all(
     users.flatMap((author) =>
-      Array.from({ length: 5 }).map(() => {
+      Array.from({ length: 3 }).map(() => {
         const originalPost = faker.helpers.arrayElement(posts);
         return prisma.post.create({
           data: {
@@ -142,7 +133,6 @@ async function main() {
       })
     )
   );
-
   console.log(`✅ ${shares.length} shared posts`);
 
   console.log('🎉 Done!');
