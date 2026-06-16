@@ -5,10 +5,11 @@ import { useEditProfile } from '@/hooks/useEditProfile';
 import { useState, useRef } from 'react';
 import { Camera } from 'lucide-react';
 import { useUploadAvatar } from '@/hooks/useUploadAvatar';
+import { UserBodySchema } from '@xbookgram/shared';
 
 export function UserInfoSettings() {
   const { currentUser } = useCurrentUser();
-  const [isEditing, setIsEditing] = useState('none'); // none | name | username
+  const [isEditing, setIsEditing] = useState('none');
   const { mutate } = useEditProfile();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: uploadAvatar } = useUploadAvatar();
@@ -21,7 +22,6 @@ export function UserInfoSettings() {
           username={currentUser?.user.username || ''}
           className="h-20 w-20"
         />
-
         <div
           onClick={() => fileInputRef.current?.click()}
           className="absolute bottom-0 left-0 right-0 h-1/3 bg-black/50 flex flex-col items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform"
@@ -38,6 +38,7 @@ export function UserInfoSettings() {
         currentValue={currentUser?.user.username || ''}
         setIsEditing={setIsEditing}
         onSave={(value) => mutate({ username: value })}
+        validator={(value) => UserBodySchema.shape.username.safeParse(value)}
       />
       <SettingsField
         key={currentUser?.user.name}
@@ -47,8 +48,8 @@ export function UserInfoSettings() {
         currentValue={currentUser?.user.name || ''}
         setIsEditing={setIsEditing}
         onSave={(value) => mutate({ name: value })}
+        validator={(value) => UserBodySchema.shape.name.safeParse(value)}
       />
-
       <input
         ref={fileInputRef}
         type="file"
