@@ -45,16 +45,8 @@ export const guestLogin: RequestHandler = async (req, res, next) => {
       process.env.JWT_SECRET!,
       { expiresIn: '30d' }
     );
-
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-
-    res.status(200).redirect(`${process.env.CLIENT_URL}`);
-  } catch (error) {
+    
+    res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}`);  } catch (error) {
     next(error);
   }
 };
