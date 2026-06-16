@@ -12,10 +12,10 @@ import { userRouter } from './routers/user.js';
 import { notificationRouter } from './routers/notifications.js';
 
 const app = express();
-
+app.use(cors(corsConfig));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsConfig));
+
 
 app.use('/auth', authRouter);
 app.use('/api/posts', authenticate, postsRouter);
