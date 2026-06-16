@@ -7,8 +7,8 @@ A full-stack social media web app built as a portfolio project. Users can post, 
 
 > A guest login is available on the login page — no account needed.
 
-![Feed](docs/screenshots/feed.webp)
-![Comment modal](docs/screenshots/comment-modal.webp)
+![Screenshot 1](docs/screenshots/feed.webp)
+![Screenshot 2](docs/screenshots/comment-modal.webp)
 
 ---
 
