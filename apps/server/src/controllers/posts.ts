@@ -189,6 +189,7 @@ export const getPost: RequestHandler = async (req, res, next) => {
               select: { userId: true },
             },
           },
+          orderBy: { createdAt: 'asc' },
         },
         likes: {
           where: { userId: req.user!.id },
