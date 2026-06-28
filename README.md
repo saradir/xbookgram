@@ -20,6 +20,7 @@ A full-stack social media web app built as a portfolio project. Users can post, 
 - Follow / unfollow users
 - Live user search with debounce
 - Real-time notifications via WebSockets
+- Optimistic updates for follows, likes and comments
 - Profile picture uploads
 - Fully responsive UI
 
@@ -88,7 +89,5 @@ pnpm --filter @xbookgram/client dev
 
 ## Roadmap
 
-- [ ] Optimistic updates for likes and follows (TanStack Query cache mutation)
-- [ ] Client-side form validation with error display
 - [ ] Test suite covering the critical auth + post flow
 - [ ] Swagger / OpenAPI docs
