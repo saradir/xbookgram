@@ -1,4 +1,4 @@
-import { SettingsIcon, LogOutIcon } from 'lucide-react';
+import { SettingsIcon, LogOutIcon, UserRound } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -30,6 +30,15 @@ export function DropdownMenuAvatar({ user }: { user?: User }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              navigate(`/users/${user?.id}`);
+            }}
+          >
+            <UserRound />
+            My Profile
+          </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
