@@ -23,6 +23,7 @@ export type Feed = {
 
 export type Comment = {
   id: number;
+  postId: number;
   content: string;
   createdAt: string;
   updatedAt: string;
