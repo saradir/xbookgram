@@ -23,7 +23,7 @@ export function PostCard({ post }: { post: Post }) {
   const [openCommentModal, setCommentModalOpen] = useState(false);
   const [openShareModal, setShareModalOpen] = useState(false);
   const [openEditModal, setEditModalOpen] = useState(false);
-  const { mutate } = useToggleLike('post', post.id);
+  const { mutate } = useToggleLike('post', post.id, undefined);
   const { currentUser } = useCurrentUser();
   const isCurrentUser = post.author.id === currentUser?.user.id;
 
