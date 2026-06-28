@@ -17,7 +17,7 @@ import { EditCommentForm } from './EditCommentForm';
 import { formatDate } from '@/lib/utils';
 
 export function CommentCard({ comment }: { comment: Comment }) {
-  const { mutate } = useToggleLike('comment', comment.id);
+  const { mutate } = useToggleLike('comment', comment.postId, comment.id);
   const { currentUser } = useCurrentUser();
   const isCurrentUser = comment.author.id === currentUser?.user.id;
   const [isEditing, setIsEditing] = useState(false);
